@@ -1,0 +1,2834 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light"><title>Daily Profit Pulse</title><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"><style>:root {
+ --cream: #faf7f2;
+ --warm: #f2ece0;
+ --paper: #fffdf9;
+ --ink: #1a1512;
+ --ink2: #4a3f35;
+ --muted: #9a8f85;
+ --border: #e8e0d4;
+ --sky: #3b9eda;
+ --sky-l: #e8f4fd;
+ --coral: #e8622a;
+ --coral-l: #fdf0eb;
+ --green: #2d9e6b;
+ --green-l: #e8f7f1;
+ --amber: #d4860a;
+ --amber-l: #fdf4e3;
+ --red: #c0392b;
+ --red-l: #fdecea;
+ --shadow: 0 2px 12px rgba(26,21,18,0.08);
+ --shadow-lg: 0 8px 32px rgba(26,21,18,0.12);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html, body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; min-height: 100vh; }
+
+ .header {
+ background: var(--paper); border-bottom: 1px solid var(--border);
+ padding: 0 32px; position: sticky; top: 0; z-index: 100;
+ display: flex; align-items: center; justify-content: space-between; gap: 16px;
+ }
+ .header-brand { display: flex; align-items: baseline; gap: 10px; padding: 18px 0; }
+ .brand-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+ .brand-name span { color: var(--coral); }
+ .brand-tag { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+ .biz-input { background: var(--warm); border: 1px solid var(--border); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 6px 12px; border-radius: 6px; width: 200px; transition: border-color 0.2s; }
+ .biz-input:focus { outline: none; border-color: var(--sky); }
+
+ .tab-bar { display: flex; padding: 0 32px; background: var(--paper); border-bottom: 2px solid var(--border); position: sticky; top: 61px; z-index: 90; }
+ .tab-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 13px 18px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; }
+ .tab-btn:hover { color: var(--ink2); }
+ .tab-btn.active { color: var(--coral); border-bottom-color: var(--coral); font-weight: 600; }
+
+ .tab-panel { display: none; }
+ .tab-panel.active { display: block; }
+
+ .page { padding: 32px; max-width: 920px; margin: 0 auto; }
+
+ .section-label { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+ .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+ /* STAT CARDS */
+ .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+ .stat-card { background: var(--paper); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); transition: transform 0.15s, box-shadow 0.15s; }
+ .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+ .stat-card.green { border-top: 3px solid var(--green); }
+ .stat-card.coral { border-top: 3px solid var(--coral); }
+ .stat-card.sky { border-top: 3px solid var(--sky); }
+ .stat-card.amber { border-top: 3px solid var(--amber); }
+ .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+ .stat-value { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+ .stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+ .val-green { color: var(--green); } .val-coral { color: var(--coral); }
+ .val-sky { color: var(--sky); } .val-amber { color: var(--amber); }
+ .val-red { color: var(--red); }
+
+ /* ENTRY CARD */
+ .entry-card { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 26px; box-shadow: var(--shadow); margin-bottom: 20px; }
+ .entry-card-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+ .icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+ .icon-green { background: var(--green-l); } .icon-coral { background: var(--coral-l); }
+ .icon-sky { background: var(--sky-l); } .icon-amber { background: var(--amber-l); }
+
+ .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+ .form-field { display: flex; flex-direction: column; gap: 6px; }
+ .form-label { font-size: 12px; font-weight: 600; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.06em; }
+ .form-input, .form-select { background: var(--warm); border: 1px solid var(--border); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; padding: 10px 14px; border-radius: 8px; transition: border-color 0.2s, background 0.2s; width: 100%; color-scheme: light; }
+ .form-input:focus, .form-select:focus { outline: none; border-color: var(--sky); background: var(--paper); }
+ .form-input::placeholder { color: var(--muted); }
+ .form-hint { font-size: 11px; color: var(--muted); }
+
+ .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+ .expense-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+ .expense-row { display: grid; grid-template-columns: 1fr 160px 36px; gap: 10px; align-items: center; }
+ .btn-remove { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; width: 36px; height: 36px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+ .btn-remove:hover { border-color: var(--red); color: var(--red); }
+ .btn-add-expense { background: none; border: 1px dashed var(--border); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+ .btn-add-expense:hover { border-color: var(--sky); color: var(--sky); }
+
+ .btn-submit { background: var(--coral); color: white; border: none; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 22px; transition: opacity 0.15s, transform 0.15s; letter-spacing: 0.02em; }
+ .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+ .alert { padding: 12px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px; border: 1px solid transparent; animation: slideIn 0.3s ease; line-height: 1.5; }
+ .alert-icon { flex-shrink: 0; }
+ @keyframes slideIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+ .alert-success, .alert-green { background: var(--green-l); border-color: rgba(45,158,107,0.2); color: var(--green); }
+ .alert-warning, .alert-amber { background: var(--amber-l); border-color: rgba(212,134,10,0.2); color: var(--amber); }
+ .alert-danger, .alert-red { background: var(--red-l); border-color: rgba(192,57,43,0.2); color: var(--red); }
+ .alert-sky { background: var(--sky-l); border-color: rgba(59,158,218,0.2); color: var(--sky); }
+
+ /* HISTORY TABLE */
+ .table-wrap { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+ .table-header { padding: 16px 20px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); background: var(--warm); display: flex; justify-content: space-between; align-items: center; }
+ .history-table { width: 100%; border-collapse: collapse; }
+ .history-table th { padding: 10px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; background: var(--warm); border-bottom: 1px solid var(--border); }
+ .history-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); background: var(--paper); vertical-align: middle; }
+ .history-table tr:last-child td { border-bottom: none; }
+ .history-table tr:hover td { background: var(--warm); }
+ .profit-pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+ .profit-pos { background: var(--green-l); color: var(--green); }
+ .profit-neg { background: var(--red-l); color: var(--red); }
+ .btn-delete-entry { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 4px 8px; border-radius: 4px; transition: color 0.15s; }
+ .btn-delete-entry:hover { color: var(--red); }
+ .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); }
+ .empty-state .big { font-size: 40px; margin-bottom: 12px; }
+
+ /* BAR CHART */
+ .week-chart-wrap { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 28px; }
+ .week-chart-title { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--ink); }
+ .bar-chart { display: flex; align-items: flex-end; gap: 10px; height: 160px; padding-bottom: 28px; position: relative; border-bottom: 2px solid var(--border); }
+ .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; position: relative; }
+ .bar { width: 100%; border-radius: 6px 6px 0 0; min-height: 4px; transition: height 0.4s ease; }
+ .bar-label { position: absolute; bottom: -24px; font-size: 11px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+ .bar-val { font-size: 11px; color: var(--ink2); font-weight: 600; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+
+ /* INSIGHTS */
+ .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 28px; }
+ .insight-card { background: var(--paper); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); display: flex; gap: 14px; align-items: flex-start; }
+ .insight-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+ .insight-title { font-size: 11px; font-weight: 600; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+ .insight-value { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+ .insight-note { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+ /* SETTINGS */
+ .settings-section { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; box-shadow: var(--shadow); margin-bottom: 20px; }
+ .settings-title { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; margin-bottom: 18px; color: var(--ink); }
+ .btn-danger { background: none; border: 1px solid var(--red); color: var(--red); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 8px 18px; border-radius: 8px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+ .btn-danger:hover { background: var(--red); color: white; }
+ .btn-export-csv { background: var(--sky); color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 8px; cursor: pointer; transition: opacity 0.15s; }
+ .btn-export-csv:hover { opacity: 0.85; }
+
+ /* MAINTENANCE */
+ .maint-stats-row {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+ gap: 14px;
+ margin-bottom: 20px;
+ }
+ .maint-stat {
+ background: var(--paper);
+ border: 1px solid var(--border);
+ border-radius: 12px;
+ padding: 16px 20px;
+ box-shadow: var(--shadow);
+ }
+ .maint-stat-label {
+ font-size: 11px;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ color: var(--muted);
+ margin-bottom: 6px;
+ }
+ .maint-stat-val {
+ font-family: 'Fraunces', serif;
+ font-size: 26px;
+ font-weight: 700;
+ color: var(--ink);
+ }
+ .maint-stat-val.amber { color: var(--amber); }
+ .maint-stat-val.green { color: var(--green); }
+ .maint-stat-val.blue { color: var(--sky); }
+
+ .maint-cols {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 20px;
+ margin-bottom: 28px;
+ }
+ @media (max-width: 800px) { .maint-cols { grid-template-columns: 1fr; } }
+
+ .maint-section {
+ background: var(--paper);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ padding: 24px;
+ box-shadow: var(--shadow);
+ }
+ .maint-section-title {
+ font-family: 'Fraunces', serif;
+ font-size: 16px;
+ font-weight: 600;
+ color: var(--ink);
+ margin-bottom: 18px;
+ }
+
+ .maint-table-wrap {
+ background: var(--paper);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ overflow: hidden;
+ box-shadow: var(--shadow);
+ }
+ .maint-table-title {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 14px 20px;
+ background: var(--warm);
+ border-bottom: 1px solid var(--border);
+ font-family: 'Fraunces', serif;
+ font-size: 15px;
+ font-weight: 600;
+ color: var(--ink2);
+ }
+ .maint-table {
+ width: 100%;
+ border-collapse: collapse;
+ }
+ .maint-table th {
+ text-align: left;
+ font-size: 11px;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ color: var(--muted);
+ padding: 10px 16px;
+ border-bottom: 1px solid var(--border);
+ background: var(--cream);
+ }
+ .maint-table td {
+ padding: 12px 16px;
+ font-size: 13px;
+ border-bottom: 1px solid var(--border);
+ background: var(--paper);
+ vertical-align: middle;
+ color: var(--ink2);
+ }
+ .maint-table tr:last-child td { border-bottom: none; }
+ .maint-table tr:hover td { background: var(--warm); }
+
+ .priority-badge {
+ display: inline-flex;
+ align-items: center;
+ gap: 4px;
+ padding: 2px 9px;
+ border-radius: 999px;
+ font-size: 11px;
+ font-weight: 600;
+ }
+ .priority-high { background: var(--red-l); color: var(--red); }
+ .priority-medium { background: var(--amber-l); color: var(--amber); }
+ .priority-low { background: var(--green-l); color: var(--green); }
+
+ .overdue-badge {
+ display: inline-block;
+ padding: 2px 8px;
+ border-radius: 4px;
+ font-size: 10px;
+ font-weight: 700;
+ background: var(--red-l);
+ color: var(--red);
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ }
+
+ .due-soon-badge {
+ display: inline-block;
+ padding: 2px 8px;
+ border-radius: 4px;
+ font-size: 10px;
+ font-weight: 700;
+ background: var(--amber-l);
+ color: var(--amber);
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ }
+
+ .maint-complete-btn {
+ background: var(--green-l);
+ color: var(--green);
+ border: 1px solid var(--green);
+ font-family: 'DM Sans', sans-serif;
+ font-size: 11px;
+ font-weight: 600;
+ padding: 4px 10px;
+ border-radius: 6px;
+ cursor: pointer;
+ transition: background 0.15s;
+ white-space: nowrap;
+ }
+ .maint-complete-btn:hover { background: var(--green); color: white; }
+
+ .maint-delete-btn {
+ background: none;
+ border: none;
+ color: var(--muted);
+ cursor: pointer;
+ font-size: 14px;
+ padding: 2px 6px;
+ border-radius: 4px;
+ transition: color 0.15s;
+ }
+ .maint-delete-btn:hover { color: var(--red); }
+
+ .recur-badge {
+ font-size: 10px;
+ color: var(--sky);
+ background: var(--sky-l);
+ padding: 1px 6px;
+ border-radius: 4px;
+ font-weight: 600;
+ }
+
+ /* PAYMENT CALCULATOR */
+ .calc-layout {
+ display: grid;
+ grid-template-columns: 420px 1fr;
+ gap: 20px;
+ align-items: start;
+ }
+ @media (max-width: 960px) { .calc-layout { grid-template-columns: 1fr; } }
+
+ .calc-card {
+ background: var(--paper);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ padding: 22px 24px;
+ box-shadow: var(--shadow);
+ margin-bottom: 16px;
+ }
+ .calc-card:last-child { margin-bottom: 0; }
+ .calc-card-title {
+ font-family: 'Fraunces', serif;
+ font-size: 16px;
+ font-weight: 600;
+ color: var(--ink);
+ margin-bottom: 20px;
+ }
+
+ .calc-field { margin-bottom: 16px; }
+ .calc-field:last-child { margin-bottom: 0; }
+
+ .calc-fields-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 14px;
+ }
+ @media (max-width: 600px) { .calc-fields-grid { grid-template-columns: 1fr; } }
+
+ .calc-hint {
+ font-size: 11px;
+ color: var(--muted);
+ margin-top: 5px;
+ line-height: 1.5;
+ }
+
+ .calc-processor-block {
+ border: 1px solid var(--border);
+ border-radius: 10px;
+ padding: 14px 16px;
+ margin-bottom: 12px;
+ }
+ .calc-processor-block:last-child { margin-bottom: 0; }
+
+ .calc-processor-name {
+ font-weight: 700;
+ font-size: 13px;
+ margin-bottom: 12px;
+ letter-spacing: 0.01em;
+ }
+
+ .calc-fee-row {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: 12px;
+ color: var(--ink2);
+ padding: 6px 0;
+ border-bottom: 1px solid rgba(0,0,0,0.06);
+ gap: 12px;
+ }
+ .calc-fee-val { font-weight: 600; text-align: right; }
+
+ .calc-inline-input {
+ width: 58px;
+ background: var(--paper);
+ border: 1px solid var(--border);
+ border-radius: 5px;
+ padding: 3px 6px;
+ font-size: 12px;
+ font-family: 'DM Sans', sans-serif;
+ color: var(--ink);
+ text-align: center;
+ }
+ .calc-inline-input:focus { outline: none; border-color: var(--coral); }
+
+ /* Results */
+ .calc-method-block {
+ border-radius: 10px;
+ padding: 14px 16px;
+ }
+ .calc-method-block.sky { background: var(--sky-l); border: 1px solid rgba(59,158,218,0.2); }
+ .calc-method-block.ink { background: var(--warm); border: 1px solid var(--border); }
+ .calc-method-block.amber{ background: var(--amber-l); border: 1px solid rgba(212,134,10,0.2); }
+
+ .calc-method-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 10px;
+ padding-bottom: 10px;
+ border-bottom: 1px solid rgba(0,0,0,0.08);
+ }
+ .calc-method-name { font-weight: 700; font-size: 13px; color: var(--ink2); }
+ .calc-method-total { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; }
+ .calc-method-total.sky { color: var(--sky); }
+ .calc-method-total.ink { color: var(--ink); }
+ .calc-method-total.amber{ color: var(--amber); }
+
+ .calc-breakdown-row {
+ display: flex;
+ justify-content: space-between;
+ font-size: 12px;
+ color: var(--ink2);
+ padding: 5px 0;
+ border-bottom: 1px solid rgba(0,0,0,0.05);
+ gap: 10px;
+ }
+
+ .calc-annual-row {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: 13px;
+ color: var(--ink2);
+ padding: 9px 0;
+ border-bottom: 1px solid var(--border);
+ gap: 12px;
+ }
+ .calc-annual-row:last-child { border-bottom: none; }
+ .calc-annual-val {
+ font-family: 'Fraunces', serif;
+ font-size: 18px;
+ font-weight: 700;
+ white-space: nowrap;
+ }
+ .calc-annual-val.sky { color: var(--sky); }
+ .calc-annual-val.green { color: var(--green); }
+ .calc-annual-val.red { color: var(--red); }
+
+ @media (max-width: 600px) {
+ .header { padding: 0 16px; flex-wrap: wrap; }
+ .tab-bar { padding: 0 12px; overflow-x: auto; }
+ .tab-btn { padding: 13px 12px; font-size: 12px; }
+ .page { padding: 20px 16px; }
+ .stat-row { grid-template-columns: repeat(2, 1fr); }
+ .expense-row { grid-template-columns: 1fr 110px 36px; }
+ .biz-input { width: 150px; }
+ .maint-stats-row { grid-template-columns: 1fr 1fr; }
+ }
+
+  /* ── HERO SUMMARY CARD ── */
+  .ann-hero-card { background:var(--ink);color:#fff;border-radius:16px;padding:22px 24px;margin-bottom:18px; }
+  .ann-hero-title { font-size:13px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.5);margin-bottom:16px; }
+  .ann-hero-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:12px; }
+  @media(max-width:760px){ .ann-hero-grid{ grid-template-columns:repeat(2,1fr); } }
+  .ann-hero-stat { background:rgba(255,255,255,0.07);border-radius:10px;padding:14px 14px; }
+  .ann-hero-stat-label { font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px; }
+  .ann-hero-stat-value { font-size:22px;font-weight:800;line-height:1.1; }
+  .ann-hero-stat-sub { font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px; }
+  .ann-hero-stat.positive .ann-hero-stat-value { color:#6ee7b7; }
+  .ann-hero-stat.negative .ann-hero-stat-value { color:#fca5a5; }
+  .ann-hero-stat.sky-v .ann-hero-stat-value { color:#7dd3fc; }
+  .ann-hero-stat.amber-v .ann-hero-stat-value { color:#fde68a; }
+  .ann-hero-stat.purple-v .ann-hero-stat-value { color:#c4b5fd; }
+  .ann-hero-stat.white-v .ann-hero-stat-value { color:#fff; }
+  .ann-hero-verdict { margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7; }
+  /* ── ACQUISITION CARD ── */
+  .ann-acq-card { background:var(--paper);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-top:16px;border-top:3px solid #7c5cbf; }
+  .ann-acq-title { font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px; }
+  .ann-acq-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px; }
+  @media(max-width:700px){ .ann-acq-grid{ grid-template-columns:repeat(2,1fr); } }
+  .ann-acq-stat { background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-align:center; }
+  .ann-acq-stat-label { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px; }
+  .ann-acq-stat-value { font-size:18px;font-weight:800;color:#7c5cbf; }
+  .ann-acq-stat-sub { font-size:11px;color:var(--muted);margin-top:2px; }
+  .ann-acq-waterfall { width:100%;border-collapse:collapse;font-size:13px;margin-top:8px; }
+  .ann-acq-waterfall th { background:var(--cream);text-align:left;padding:7px 10px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);border-bottom:1px solid var(--border); }
+  .ann-acq-waterfall td { padding:8px 10px;border-bottom:1px solid rgba(0,0,0,0.04); }
+  .ann-acq-waterfall .total-row td { font-weight:700;background:var(--cream);border-top:2px solid var(--border); }
+  .ann-acq-warn { background:rgba(230,162,60,0.1);border:1px solid rgba(230,162,60,0.3);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--ink2);margin-top:10px; }
+
+
+  /* ══════════════════════════════════════════════
+     BUSINESS HEALTH TAB
+  ══════════════════════════════════════════════ */
+  .health-hero { background: var(--ink); color: #fff; border-radius: 16px; padding: 24px 28px; margin-bottom: 24px; }
+  .health-hero-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .health-hero-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+  .health-score-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .health-score-circle { width: 90px; height: 90px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 4px solid rgba(255,255,255,0.15); flex-shrink: 0; }
+  .health-score-num { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 700; line-height: 1; }
+  .health-score-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  .health-score-bars { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 200px; }
+  .health-score-bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; color: rgba(255,255,255,0.7); }
+  .health-score-bar-label { width: 120px; flex-shrink: 0; }
+  .health-score-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+  .health-score-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+  .health-score-bar-val { width: 44px; text-align: right; font-weight: 600; }
+
+  .health-inputs { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; margin-bottom: 24px; }
+  .health-inputs-title { font-size: 13px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .health-inputs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media(max-width:760px){ .health-inputs-grid{ grid-template-columns: repeat(2,1fr); } }
+
+  .health-metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:700px){ .health-metric-grid{ grid-template-columns: 1fr; } }
+
+  .health-metric-card { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+  .health-metric-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; gap: 10px; }
+  .health-metric-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .health-metric-badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .badge-great  { background: var(--green-l); color: var(--green); }
+  .badge-ok     { background: var(--amber-l); color: var(--amber); }
+  .badge-watch  { background: #fff3cd; color: #856404; }
+  .badge-danger { background: var(--red-l);  color: var(--red);   }
+  .badge-na     { background: var(--cream);  color: var(--muted); }
+
+  .health-metric-value { font-family: 'Fraunces', serif; font-size: 34px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .health-metric-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+
+  .health-benchmark-bar { margin-bottom: 14px; }
+  .health-bar-track { height: 8px; border-radius: 4px; background: var(--warm); position: relative; overflow: visible; margin: 6px 0 4px; }
+  .health-bar-fill  { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .health-bar-zones { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .health-bar-needle { position: absolute; top: -4px; width: 3px; height: 16px; border-radius: 2px; background: var(--ink); transform: translateX(-50%); transition: left 0.5s ease; z-index: 2; }
+  .health-bar-needle::after { content: '▼'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 8px; color: var(--ink); }
+
+  .health-ranges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .health-range-pill { font-size: 11px; padding: 2px 8px; border-radius: 12px; }
+
+  .health-explain { font-size: 12px; color: var(--ink2); line-height: 1.7; padding-top: 12px; border-top: 1px solid var(--border); }
+  .health-explain strong { color: var(--ink); }
+
+  .health-formula { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 12px; font-family: monospace; color: var(--ink2); margin-bottom: 10px; }
+
+  .health-section-header { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--ink); margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+
+  .health-tip { background: var(--sky-l); border-left: 3px solid var(--sky); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 12px; color: var(--ink2); line-height: 1.7; margin-top: 10px; }
+  .health-tip strong { color: var(--sky); }
+
+  /* ── TAX ANALYSIS CARD ── */
+  .ann-tax-card { background:var(--paper);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-top:16px;border-top:3px solid var(--sky); }
+  .ann-tax-header { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:6px; }
+  .ann-tax-title { font-size:15px;font-weight:700;color:var(--ink); }
+  .ann-tax-stats { display:grid;grid-template-columns:repeat(4,1fr);gap:10px; }
+  @media(max-width:700px){ .ann-tax-stats{ grid-template-columns:repeat(2,1fr); } }
+  .ann-tax-stat { background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-align:center; }
+  .ann-tax-stat-label { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px; }
+  .ann-tax-stat-value { font-size:20px;font-weight:800;line-height:1.1; }
+  .ann-tax-stat-sub { font-size:11px;color:var(--muted);margin-top:3px; }
+  .ann-tax-table { width:100%;border-collapse:collapse;font-size:13px; }
+  .ann-tax-table th { background:var(--cream);text-align:left;padding:7px 10px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);border-bottom:1px solid var(--border); }
+  .ann-tax-table td { padding:8px 10px;border-bottom:1px solid rgba(0,0,0,0.04); }
+  .ann-tax-table tr:last-child td { border-bottom:none;font-weight:700; }
+  .ann-tax-table .tax-total-row td { background:var(--cream);border-top:2px solid var(--border); }
+  .ann-tax-qtr { display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px; }
+  @media(max-width:700px){ .ann-tax-qtr{ grid-template-columns:repeat(2,1fr); } }
+  .ann-tax-qtr-item { background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:11px 12px;text-align:center; }
+  .ann-tax-qtr-label { font-size:11px;font-weight:700;color:var(--muted);margin-bottom:2px; }
+  .ann-tax-qtr-date { font-size:10px;color:var(--muted);margin-bottom:6px; }
+  .ann-tax-qtr-amount { font-size:18px;font-weight:800;color:var(--sky); }
+
+  /* ── ANNUAL ANALYSIS TAB ── */
+  .ann-supplier-link { color: var(--sky); text-decoration: none; font-weight: 600; }
+  .ann-supplier-link:hover { text-decoration: underline; }
+  .ann-layout { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; margin-bottom: 28px; }
+  @media (max-width: 900px) { .ann-layout { grid-template-columns: 1fr; } }
+  .ann-inputs-panel { display: flex; flex-direction: column; gap: 16px; }
+  .ann-input-section { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .ann-input-section-title { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); letter-spacing: -0.01em; }
+  .ann-input-section .form-field { margin-bottom: 12px; }
+  .ann-input-section .form-field:last-child { margin-bottom: 0; }
+  .ann-results-panel { display: flex; flex-direction: column; gap: 20px; }
+  .ann-summary-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 700px) { .ann-summary-strip { grid-template-columns: 1fr 1fr; } }
+  .ann-stat { background: var(--paper); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .ann-stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 6px; }
+  .ann-stat-value { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700; color: var(--ink); }
+  .ann-stat-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .ann-stat.green .ann-stat-value { color: var(--green); }
+  .ann-stat.coral .ann-stat-value { color: var(--coral); }
+  .ann-stat.sky .ann-stat-value { color: var(--sky); }
+  .ann-stat.amber .ann-stat-value { color: var(--amber); }
+  /* chart */
+  .ann-chart-card { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+  .ann-chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+  .ann-chart-title { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: var(--ink); }
+  .ann-legend { display: flex; gap: 16px; flex-wrap: wrap; }
+  .ann-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink2); }
+  .ann-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .ann-chart-area { position: relative; height: 300px; }
+  /* table */
+  .ann-table-card { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .ann-table-header { padding: 14px 20px; border-bottom: 1px solid var(--border); font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .ann-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .ann-table th { background: var(--cream); padding: 10px 14px; text-align: right; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+  .ann-table th:first-child { text-align: left; }
+  .ann-table td { padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border); color: var(--ink2); }
+  .ann-table td:first-child { text-align: left; font-weight: 600; color: var(--ink); }
+  .ann-table tr:last-child td { border-bottom: none; }
+  .ann-table tr.ann-tr-total td { background: var(--cream); font-weight: 700; color: var(--ink); border-top: 2px solid var(--border); }
+  .ann-table .profit-pos { color: var(--green); font-weight: 700; }
+  .ann-table .profit-neg { color: var(--coral); font-weight: 700; }
+  /* labor card */
+  .ann-labor-card { background: var(--cream); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .ann-labor-title { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+  .ann-labor-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .ann-labor-item { background: var(--paper); border: 1px solid var(--border); border-radius: 8px; }
+  .ann-labor-role { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 3px; }
+  .ann-labor-count { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ink); }
+  .ann-labor-detail { font-size: 11px; color: var(--ink2); margin-top: 2px; }
+  /* assumptions */
+  .ann-assumptions { background: var(--cream); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .ann-assumptions-title { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+  .ann-assumption-item { padding: 5px 0 5px 14px; border-left: 2px solid var(--border); margin-bottom: 5px; font-size: 12px; color: var(--ink2); line-height: 1.6; }
+</style></head><body><!-- HEADER --><div class="header"><div class="header-brand"><span class="brand-name">Daily Profit Pulse</span><span class="brand-tag">Small Biz Finance</span></div><input class="biz-input" id="biz-name" placeholder="Your business name" type="text"></div><!-- TAB BAR --><div class="tab-bar"><button class="tab-btn active" onclick="switchTab('log',this)">Log Entry</button><button class="tab-btn" onclick="switchTab('dashboard',this)">Dashboard</button><button class="tab-btn" onclick="switchTab('history',this)">History</button><button class="tab-btn" onclick="switchTab('maintenance',this)">Maintenance</button><button class="tab-btn" onclick="switchTab('payment',this)">Fee Calc</button><button class="tab-btn" onclick="switchTab('annual',this)">Annual Analysis</button><button class="tab-btn" onclick="switchTab('health',this)">Business Health</button><button class="tab-btn" onclick="switchTab('settings',this)">Settings</button></div><!-- LOG ENTRY --><div class="tab-panel active" id="tab-log"><div class="page"><div class="section-label">Log Today's Numbers</div><div class="section-sub">Takes 2 minutes — just fill in what happened today</div><div id="alert-area"></div><div class="entry-card"><div class="entry-card-title"><div class="icon icon-green"></div>Revenue</div><div class="form-grid"><div class="form-field"><label class="form-label">Date</label><input class="form-input" id="entry-date" type="date"></div><div class="form-field"><label class="form-label">Cars Washed / Units Sold</label><input class="form-input" id="entry-units" type="number" min="0" placeholder="e.g. 47"><span class="form-hint">How many customers did you serve?</span></div><div class="form-field"><label class="form-label">Total Revenue ($)</label><input class="form-input" id="entry-revenue" type="number" min="0" step="0.01" placeholder="e.g. 658.00"><span class="form-hint">All money taken in today</span></div><div class="form-field"><label class="form-label">Avg. Ticket ($)</label><input class="form-input" id="entry-avg-ticket" type="number" placeholder="Auto-calculated" readonly style="background:var(--cream);color:var(--muted);cursor:default"><span class="form-hint">Revenue ÷ customers (auto)</span></div></div></div><div class="entry-card"><div class="entry-card-title"><div class="icon icon-coral"></div>Staff & Wages</div><div class="form-grid"><div class="form-field"><label class="form-label">Total Hours Worked</label><input class="form-input" id="entry-hours" type="number" min="0" step="0.5" placeholder="e.g. 16"></div><div class="form-field"><label class="form-label">Total Wages Paid ($)</label><input class="form-input" id="entry-wages" type="number" min="0" step="0.01" placeholder="e.g. 192.00"></div><div class="form-field"><label class="form-label">Staff Count Today</label><input class="form-input" id="entry-staff" type="number" min="0" placeholder="e.g. 3"></div></div></div><div class="entry-card"><div class="entry-card-title"><div class="icon icon-amber"></div>Other Expenses</div><div class="expense-list" id="expense-list"></div><button class="btn-add-expense" onclick="addExpenseRow()">+ Add Expense</button><hr class="divider"><div class="form-grid"><div class="form-field"><label class="form-label">Weather Today</label><select class="form-input" id="entry-weather"><option value="">— Select —</option><option value="sunny">Sunny</option><option value="cloudy">Cloudy</option><option value="rainy">Rainy</option><option value="hot">Very Hot</option><option value="cold">Cold</option><option value="windy">Windy</option></select></div><div class="form-field"><label class="form-label">Notes / Observations</label><input class="form-input" id="entry-notes" type="text" placeholder="e.g. Rainy morning, slow start"></div></div><button class="btn-submit" onclick="saveEntry()">Save Today's Entry →</button></div></div></div><!-- DASHBOARD --><div class="tab-panel" id="tab-dashboard"><div class="page"><div class="section-label">Your Business Pulse</div><div class="section-sub" id="dash-period-label">Overview based on all entries</div><div id="dash-alert"></div><div class="stat-row"><div class="stat-card green"><div class="stat-label">Total Revenue</div><div class="stat-value val-green" id="dash-revenue">$0</div><div class="stat-sub" id="dash-revenue-sub">all time</div></div><div class="stat-card coral"><div class="stat-label">Total Expenses</div><div class="stat-value val-coral" id="dash-expenses">$0</div><div class="stat-sub">wages + other costs</div></div><div class="stat-card sky"><div class="stat-label">Net Profit</div><div class="stat-value" id="dash-profit">$0</div><div class="stat-sub" id="dash-margin-sub">— margin</div></div><div class="stat-card amber"><div class="stat-label">Customers Served</div><div class="stat-value val-amber" id="dash-units">0</div><div class="stat-sub" id="dash-avg-ticket-sub">avg ticket —</div></div></div><div class="week-chart-wrap"><div class="week-chart-title">Last 14 Days — Daily Profit</div><div class="bar-chart" id="bar-chart"></div></div><div class="insights-grid" id="insights-grid"></div></div></div><!-- HISTORY --><div class="tab-panel" id="tab-history"><div class="page"><div class="section-label">Entry History</div><div class="section-sub">All your logged days — most recent first</div><div class="table-wrap"><div class="table-header"><span>All Entries</span><button class="btn-export-csv" onclick="exportCSV()">↓ Export CSV</button></div><div id="history-body"><div class="empty-state"><div class="big"></div><p>No entries yet!</p></div></div></div></div></div><!-- SETTINGS --><!-- MAINTENANCE --><div class="tab-panel" id="tab-maintenance"><div class="page"><div class="section-label">Maintenance Tracker</div><div class="section-sub">Log past repairs and plan for future ones — no more surprise breakdowns</div><!-- SUMMARY STATS --><div class="maint-stats-row" id="maint-stats-row"><div class="maint-stat"><div class="maint-stat-label">Spent This Year</div><div class="maint-stat-val" id="ms-spent">$0</div></div><div class="maint-stat"><div class="maint-stat-label">Upcoming (90 days)</div><div class="maint-stat-val amber" id="ms-upcoming">$0</div></div><div class="maint-stat"><div class="maint-stat-label">Reserve Fund Goal</div><div class="maint-stat-val blue" id="ms-reserve">$0</div></div><div class="maint-stat"><div class="maint-stat-label">Weekly Set-Aside</div><div class="maint-stat-val green" id="ms-weekly">$0</div></div></div><!-- ALERTS --><div id="maint-alerts"></div><!-- TWO COLUMN LAYOUT --><div class="maint-cols"><!-- LEFT: LOG A REPAIR --><div class="maint-section"><div class="maint-section-title">Log a Completed Repair</div><div class="form-field" style="margin-bottom:12px"><label class="form-label">Equipment / Item</label><input class="form-input" id="mr-item" placeholder="e.g. Pressure washer, Conveyor belt…"></div><div class="form-field" style="margin-bottom:12px"><label class="form-label">What was done?</label><input class="form-input" id="mr-desc" placeholder="e.g. Replaced pump motor"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px"><div class="form-field"><label class="form-label">Date</label><input class="form-input" id="mr-date" type="date"></div><div class="form-field"><label class="form-label">Cost ($)</label><input class="form-input" id="mr-cost" type="number" min="0" step="0.01" placeholder="0.00"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px"><div class="form-field"><label class="form-label">Category</label><select class="form-input" id="mr-cat"><option value="equipment">Equipment</option><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="vehicle">Vehicle</option><option value="building">Building</option><option value="other">Other</option></select></div><div class="form-field"><label class="form-label">Vendor / Tech</label><input class="form-input" id="mr-vendor" placeholder="e.g. Mike's Repairs"></div></div><div class="form-field" style="margin-bottom:16px"><label class="form-label">Notes</label><input class="form-input" id="mr-notes" placeholder="Part numbers, warranty info, next service…"></div><button class="btn-submit" onclick="saveRepair()">Save Repair Log</button></div><!-- RIGHT: SCHEDULE UPCOMING --><div class="maint-section"><div class="maint-section-title">Schedule Upcoming Maintenance</div><div class="form-field" style="margin-bottom:12px"><label class="form-label">Equipment / Item</label><input class="form-input" id="ms-item" placeholder="e.g. Tunnel blower motor"></div><div class="form-field" style="margin-bottom:12px"><label class="form-label">What needs doing?</label><input class="form-input" id="ms-desc" placeholder="e.g. Annual belt inspection & replacement"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px"><div class="form-field"><label class="form-label">Due Date</label><input class="form-input" id="ms-date" type="date"></div><div class="form-field"><label class="form-label">Estimated Cost ($)</label><input class="form-input" id="ms-cost" type="number" min="0" step="0.01" placeholder="0.00"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px"><div class="form-field"><label class="form-label">Category</label><select class="form-input" id="ms-cat"><option value="equipment">Equipment</option><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="vehicle">Vehicle</option><option value="building">Building</option><option value="other">Other</option></select></div><div class="form-field"><label class="form-label">Priority</label><select class="form-input" id="ms-priority"><option value="high">High — safety / ops critical</option><option value="medium">Medium — important</option><option value="low">Low — nice to have</option></select></div></div><div class="form-field" style="margin-bottom:16px"><label class="form-label">Recurrence</label><select class="form-input" id="ms-recur"><option value="none">One-time only</option><option value="monthly">Monthly</option><option value="quarterly">Every 3 months</option><option value="biannual">Every 6 months</option><option value="annual">Annual</option></select></div><button class="btn-submit" onclick="saveScheduled()">+ Add to Schedule</button></div></div><!-- UPCOMING TABLE --><div class="maint-table-wrap" style="margin-bottom:24px"><div class="maint-table-title"><span>Upcoming Maintenance</span><span style="font-size:11px;color:var(--muted);font-weight:400">Sorted by due date</span></div><div id="upcoming-table-body"></div></div><!-- REPAIR LOG TABLE --><div class="maint-table-wrap"><div class="maint-table-title"><span>Repair History</span><button class="btn-export-csv" onclick="exportMaintCSV()" style="font-size:11px;padding:5px 12px">↓ Export CSV</button></div><div id="repair-table-body"></div></div></div>
+
+<!-- SUPPLIERS & LOCAL SERVICES -->
+<div style="margin-top:32px">
+  <div class="maint-section-title" style="font-size:16px;margin-bottom:6px">Parts Suppliers & Local Services</div>
+  <div style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">Vetted national suppliers for self-serve car wash components, plus KC-area service categories. Always get 2–3 quotes for major repairs.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+
+    <div style="background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:18px 20px">
+      <div style="font-weight:700;font-size:13px;color:var(--ink);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">National Parts & Equipment Suppliers</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><a href="https://www.kleen-rite.com" target="_blank" rel="noopener" style="font-weight:600;color:var(--sky);text-decoration:none;font-size:13px">Kleen-Rite Corp</a><div style="font-size:12px;color:var(--ink2);margin-top:2px">kleen-rite.com — The largest self-serve car wash supplier in the US. Pumps, guns, nozzles, coin meters, bay equipment, chemicals. Ships nationwide.</div></div>
+        <div><a href="https://www.carwashsupply.com" target="_blank" rel="noopener" style="font-weight:600;color:var(--sky);text-decoration:none;font-size:13px">National Carwash Solutions (NCS)</a><div style="font-size:12px;color:var(--ink2);margin-top:2px">carwashsupply.com — Major distributor for equipment parts, soap/chemical supplies, and kiosk components. Has a service network.</div></div>
+        <div><a href="https://www.dultmeier.com" target="_blank" rel="noopener" style="font-weight:600;color:var(--sky);text-decoration:none;font-size:13px">Dultmeier Sales</a><div style="font-size:12px;color:var(--ink2);margin-top:2px">dultmeier.com — Omaha-based (close to KC) industrial pump, hose, and pressure wash equipment supplier. Strong on Comet and AR pump parts.</div></div>
+        <div><a href="https://www.ryko.com" target="_blank" rel="noopener" style="font-weight:600;color:var(--sky);text-decoration:none;font-size:13px">Ryko / PDQ Manufacturing</a><div style="font-size:12px;color:var(--ink2);margin-top:2px">ryko.com — OEM parts and service for Ryko-brand self-serve and automatic equipment. If your bays are Ryko, start here for parts.</div></div>
+        <div><a href="https://www.watersystemsco.com" target="_blank" rel="noopener" style="font-weight:600;color:var(--sky);text-decoration:none;font-size:13px">Water Systems Co.</a><div style="font-size:12px;color:var(--ink2);margin-top:2px">watersystemsco.com — Water reclaim systems, softeners, RO units, and treatment. Critical for a 20-yr-old facility likely running hard KC water.</div></div>
+        <div><a href="https://www.grainger.com" target="_blank" rel="noopener" style="font-weight:600;color:var(--sky);text-decoration:none;font-size:13px">Grainger Industrial</a><div style="font-size:12px;color:var(--ink2);margin-top:2px">grainger.com — For electrical components, motors, drives, bearings, and fasteners. Same-day pickup at KC branch (9200 Marshall Dr, Lenexa).</div></div>
+      </div>
+    </div>
+
+    <div style="background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:18px 20px">
+      <div style="font-weight:700;font-size:13px;color:var(--ink);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">KC-Area Trade Services</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><div style="font-weight:600;font-size:13px;color:var(--ink)">Plumbing</div><div style="font-size:12px;color:var(--ink2);margin-top:2px">For pipe repairs, valve replacements, and freeze damage. Search <a href="https://www.google.com/search?q=commercial+plumber+kansas+city" target="_blank" rel="noopener" style="color:var(--sky)">commercial plumbers KC</a> — look for ones with industrial or car wash experience. Get a service contract if possible.</div></div>
+        <div><div style="font-weight:600;font-size:13px;color:var(--ink)">Electrical</div><div style="font-size:12px;color:var(--ink2);margin-top:2px">Panel work, motor wiring, kiosk circuits. Needs to be a licensed commercial electrician. Search <a href="https://www.google.com/search?q=commercial+electrician+kansas+city+ks" target="_blank" rel="noopener" style="color:var(--sky)">commercial electricians KC</a>.</div></div>
+        <div><div style="font-weight:600;font-size:13px;color:var(--ink)">Pressure Wash Equipment Repair</div><div style="font-size:12px;color:var(--ink2);margin-top:2px"><a href="https://www.google.com/search?q=pressure+washer+repair+kansas+city" target="_blank" rel="noopener" style="color:var(--sky)">Search local repair shops</a> — Comet and AR pump specialists are most useful for self-serve bays. Some Kleen-Rite distributors also do field service.</div></div>
+        <div><div style="font-weight:600;font-size:13px;color:var(--ink)">HVAC / Boiler (Freeze Prevention)</div><div style="font-size:12px;color:var(--ink2);margin-top:2px">Critical for KC winters. Your bay heating system needs annual service before November. Search <a href="https://www.google.com/search?q=commercial+hvac+boiler+repair+kansas+city" target="_blank" rel="noopener" style="color:var(--sky)">commercial HVAC KC</a>.</div></div>
+        <div><div style="font-weight:600;font-size:13px;color:var(--ink)">Concrete & Structural</div><div style="font-size:12px;color:var(--ink2);margin-top:2px">Bay floor cracking, drain repair, and wall patching are common at 20 years. Look for contractors with commercial/industrial concrete experience. <a href="https://www.google.com/search?q=concrete+repair+contractor+kansas+city+commercial" target="_blank" rel="noopener" style="color:var(--sky)">Search here</a>.</div></div>
+        <div><div style="font-weight:600;font-size:13px;color:var(--ink)">Car Wash Industry Consultants</div><div style="font-size:12px;color:var(--ink2);margin-top:2px"><a href="https://www.carwash.org" target="_blank" rel="noopener" style="color:var(--sky)">International Carwash Association (ICA)</a> — member directory includes regional consultants, equipment dealers, and service providers. Useful for finding KC-area specialists.</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:12px;color:var(--ink2);line-height:1.7">
+    <strong>Tips for a 20-year-old facility:</strong> At this age, proactive service contracts with a plumber and electrician are worth it — you'll call them anyway, and having an existing relationship means faster response. Kleen-Rite is the default starting point for most self-serve parts orders; their catalog covers 90% of common wear items. For KC-specific freeze damage (a real risk), ensure your bay heat and pipe insulation is inspected every fall before the first hard freeze.
+  </div>
+</div>
+
+</div></div><!-- PAYMENT CALCULATOR --><div class="tab-panel" id="tab-payment"><div class="page"><div class="section-label">Fee Calculator</div><div class="section-sub">Compare Lightning Network (Square) vs. credit card processing for your self-serve kiosk — find what's actually cheaper</div><!-- INPUTS --><div class="calc-layout"><div class="calc-inputs-col"><!-- BUSINESS INPUTS --><div class="calc-card"><div class="calc-card-title">Your Self-Serve Car Wash</div><div class="calc-fields-grid"><div class="calc-field"><label class="form-label">Monthly Transactions</label><input class="form-input" type="number" id="txt-transactions" value="1200" min="1" step="1" oninput="syncCalc()"></div><div class="calc-field"><label class="form-label">Average Ticket Price ($)</label><input class="form-input" type="number" id="txt-ticket" value="14.00" min="0.01" step="0.50" oninput="syncCalc()"></div><div class="calc-field" style="background:var(--sky-l);border:1px solid rgba(59,158,218,0.2);border-radius:10px;padding:12px 14px;grid-column:1/-1"><label class="form-label" style="color:var(--sky)">% of Transactions on Lightning</label><input class="form-input" type="number" id="txt-ln-pct" value="5" min="0" max="100" step="1" oninput="syncCalc()" style="border-color:rgba(59,158,218,0.3)"><div class="calc-hint">What share of customers pay via Lightning at the kiosk? The rest pay by Square card.</div></div></div></div><!-- KC MARKET ESTIMATE --><div class="calc-card" style="border-color:rgba(59,158,218,0.25);background:linear-gradient(135deg,var(--paper) 0%,var(--sky-l) 100%)"><div class="calc-card-title" style="color:var(--sky)">Kansas City, KS — Lightning Adoption Estimate</div><div class="calc-hint" style="margin-bottom:16px;font-size:12px;line-height:1.7;color:var(--ink2)">Based on available crypto adoption data, here's a realistic market-sizing estimate for your area.
+ </div><div id="kc-estimate-body"></div><div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(59,158,218,0.2)"><label class="form-label" style="margin-bottom:8px;display:block">Adjust Lightning adoption rate for KC (%)</label><input class="form-input" type="number" id="txt-kc-adopt" value="0.8" min="0.1" max="10" step="0.1" oninput="syncCalc()" style="border-color:rgba(59,158,218,0.3);max-width:120px"><div class="calc-hint" style="margin-top:6px">% of KC metro adults estimated to actively use Lightning Network</div></div></div><!-- FEE STRUCTURE CARD --><div class="calc-card"><div class="calc-card-title">Fee Structures</div><div class="calc-processor-block" style="border-color: rgba(59,158,218,0.3); background: var(--sky-l)"><div class="calc-processor-name" style="color:var(--sky)">Square Lightning Network</div><div class="calc-fee-row"><span>Transaction fee</span><span class="calc-fee-val">1% <span style="font-weight:400;color:var(--muted)">(Square Bitcoin rate)</span></span></div><div class="calc-fee-row"><span>Per-transaction flat fee</span><span class="calc-fee-val">$0.00</span></div><div class="calc-fee-row"><span>Chargeback risk</span><span class="calc-fee-val" style="color:var(--green)">None — irreversible</span></div><div class="calc-fee-row"><span>Settlement time</span><span class="calc-fee-val">Instant to Square balance</span></div><div class="calc-fee-row" style="border:none"><span>BTC volatility buffer <span style="color:var(--muted);font-size:11px">(optional)</span></span><div style="display:flex;align-items:center;gap:8px"><input class="calc-inline-input" type="number" id="ln-volatility" value="0.5" min="0" max="5" step="0.1" oninput="syncCalc()">%
+ </div></div></div><div class="calc-processor-block" style="border-color: rgba(26,21,18,0.15); background: var(--warm)"><div class="calc-processor-name" style="color:var(--ink2)">Square Standard (Card)</div><div class="calc-fee-row"><span>% fee (tap / chip / swipe)</span><div style="display:flex;align-items:center;gap:6px"><input class="calc-inline-input" type="number" id="sq-pct" value="2.6" min="0" max="10" step="0.1" oninput="syncCalc()">%
+ </div></div><div class="calc-fee-row" style="border:none"><span>Flat fee per transaction</span><div style="display:flex;align-items:center;gap:6px">$ <input class="calc-inline-input" type="number" id="sq-flat" value="0.10" min="0" max="1" step="0.01" oninput="syncCalc()"></div></div></div><div class="calc-processor-block" style="border-color: rgba(212,134,10,0.25); background: var(--amber-l)"><div class="calc-processor-name" style="color:var(--amber)">Typical Credit Card (Industry Avg)</div><div class="calc-fee-row"><span>% fee</span><div style="display:flex;align-items:center;gap:6px"><input class="calc-inline-input" type="number" id="cc-pct" value="1.5" min="0" max="10" step="0.1" oninput="syncCalc()">% interchange +
+ </div></div><div class="calc-fee-row"><span>Processor markup %</span><div style="display:flex;align-items:center;gap:6px"><input class="calc-inline-input" type="number" id="cc-markup" value="0.9" min="0" max="5" step="0.1" oninput="syncCalc()">%
+ </div></div><div class="calc-fee-row" style="border:none"><span>Flat fee per transaction</span><div style="display:flex;align-items:center;gap:6px">$ <input class="calc-inline-input" type="number" id="cc-flat" value="0.15" min="0" max="1" step="0.01" oninput="syncCalc()"></div></div></div></div></div><!-- RESULTS COL --><div class="calc-results-col"><!-- MONTHLY COST COMPARISON --><div class="calc-card" style="margin-bottom:16px"><div class="calc-card-title">Monthly Cost Breakdown</div><!-- Lightning --><div class="calc-method-block sky"><div class="calc-method-header"><span class="calc-method-name">Square Lightning</span><span class="calc-method-total sky" id="r-ln-total">$0.00</span></div><div class="calc-breakdown-row"><span>Processing fees (1% + volatility)</span><span id="r-ln-fees">$0</span></div><div class="calc-breakdown-row" style="border:none"><span>Effective rate</span><span id="r-ln-rate" style="font-weight:600">0.00%</span></div></div><!-- Square Card --><div class="calc-method-block ink" style="margin-top:12px"><div class="calc-method-header"><span class="calc-method-name">Square Card</span><span class="calc-method-total ink" id="r-sq-total">$0.00</span></div><div class="calc-breakdown-row"><span>Processing fees (2.6% + $0.10)</span><span id="r-sq-fees">$0</span></div><div class="calc-breakdown-row" style="border:none"><span>Effective rate</span><span id="r-sq-rate" style="font-weight:600">0.00%</span></div></div><!-- Generic CC --><div class="calc-method-block amber" style="margin-top:12px"><div class="calc-method-header"><span class="calc-method-name">Typical Credit Card</span><span class="calc-method-total amber" id="r-cc-total">$0.00</span></div><div class="calc-breakdown-row"><span>Processing fees (interchange + markup + flat)</span><span id="r-cc-fees">$0</span></div><div class="calc-breakdown-row" style="border:none"><span>Effective rate</span><span id="r-cc-rate" style="font-weight:600">0.00%</span></div></div></div><!-- ANNUAL PROJECTION --><div class="calc-card" style="margin-bottom:16px"><div class="calc-card-title">Annual Projection</div><div id="annual-projection"><div class="calc-annual-row"><span>Lightning vs Square Card — annual savings</span><span class="calc-annual-val sky" id="ann-ln-sq">$0</span></div><div class="calc-annual-row" style="border:none"><span>Lightning vs Typical CC — annual savings</span><span class="calc-annual-val sky" id="ann-ln-cc">$0</span></div></div></div><!-- CONSIDERATIONS --><div class="calc-card"><div class="calc-card-title">Things to Consider</div><div id="considerations" style="font-size:13px;line-height:1.8;color:var(--ink2)"></div></div></div></div></div></div><!-- /tab-payment --><!-- ANNUAL ANALYSIS --><div class="tab-panel" id="tab-annual"><div class="page">
+<div class="section-label">Annual Profitability Analysis</div>
+<div class="section-sub">KC weather-adjusted revenue, 12-hour staffed operation, and 20-year-old facility maintenance — all in one forecast</div>
+
+<div class="ann-layout">
+  <!-- LEFT: INPUTS -->
+  <div class="ann-inputs-panel">
+
+    <div class="ann-input-section">
+      <div class="ann-input-section-title">Revenue</div>
+      <div class="form-field"><label class="form-label">Peak Monthly Revenue — July ($)</label>
+        <input class="form-input" type="number" id="ann-peak-rev" value="40000" step="500" oninput="renderAnnual()">
+        <span class="form-hint">Your best month. All others scale by KC seasonal index.</span></div>
+      <div class="form-field"><label class="form-label">Average Ticket Price ($)</label>
+        <input class="form-input" type="number" id="ann-ticket" value="16" step="0.50" oninput="renderAnnual()"></div>
+    </div>
+
+    <div class="ann-input-section">
+      <div class="ann-input-section-title">Operations</div>
+      <div class="form-field"><label class="form-label">Number of Self-Serve Bays</label>
+        <input class="form-input" type="number" id="ann-bays" value="8" min="1" max="20" step="1" oninput="autoStaffAndRender()"></div>
+      <div class="form-field"><label class="form-label">Attendant Hourly Wage ($)</label>
+        <input class="form-input" type="number" id="ann-wage-att" value="22" step="0.50" oninput="renderAnnual()">
+        <span class="form-hint">Above-market: KC avg is ~$14–16/hr. $22 attracts reliable, loyal staff.</span></div>
+      <div class="form-field"><label class="form-label">Lead / Shift Manager Wage ($)</label>
+        <input class="form-input" type="number" id="ann-wage-mgr" value="30" step="0.50" oninput="renderAnnual()">
+        <span class="form-hint">$30/hr for skilled trades-level supervision.</span></div>
+      <div class="form-field"><label class="form-label">GM / Operator Annual Salary ($)</label>
+        <input class="form-input" type="number" id="ann-gm-salary" value="0" step="1000" oninput="renderAnnual()">
+        <span class="form-hint">Salaried operator/GM. Default $0 — add if you're paying someone to run it.</span></div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">Staffing Override <span style="font-weight:400;text-transform:none;letter-spacing:0">(auto-calculated from bays — adjust if needed)</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="form-field" style="margin-bottom:0">
+            <label class="form-label">Attendants per Shift</label>
+            <input class="form-input" type="number" id="ann-att-per-shift" value="0" min="0" max="10" step="1" oninput="renderAnnual()">
+            <span class="form-hint">Default 0 — self-serve needs no dedicated attendant</span>
+          </div>
+          <div class="form-field" style="margin-bottom:0">
+            <label class="form-label">Leads per Shift</label>
+            <input class="form-input" type="number" id="ann-lead-per-shift" value="1" min="0" max="5" step="1" oninput="renderAnnual()">
+            <span class="form-hint">Default 1 — one person on-site per shift</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ann-input-section">
+      <div class="ann-input-section-title">Fixed Monthly Costs</div>
+      <div class="form-field"><label class="form-label">Rent / Mortgage ($)</label>
+        <input class="form-input" type="number" id="ann-rent" value="3200" step="50" oninput="renderAnnual()"></div>
+      <div class="form-field"><label class="form-label">Insurance ($)</label>
+        <input class="form-input" type="number" id="ann-insurance" value="900" step="50" oninput="renderAnnual()"></div>
+      <div class="form-field"><label class="form-label">Base Utilities ($)</label>
+        <input class="form-input" type="number" id="ann-utilities" value="1600" step="50" oninput="renderAnnual()">
+        <span class="form-hint">Water, electric, gas. Scales +30% in summer, -10% in winter.</span></div>
+      <div class="form-field"><label class="form-label">Supplies / Chemicals / POS ($)</label>
+        <input class="form-input" type="number" id="ann-supplies" value="900" step="50" oninput="renderAnnual()"></div>
+    </div>
+
+    <div class="ann-input-section" style="border-color:var(--amber);background:rgba(230,162,60,0.04)">
+      <div class="ann-input-section-title" style="color:var(--amber)">Maintenance — 20-Year-Old Facility</div>
+      <div style="font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:12px">
+        A 20-yr-old self-serve car wash typically needs <strong>$18,000–$28,000/year</strong> in maintenance.
+        High-wear items: pump rebuilds ($2–4k), bay hardware ($1–3k/bay), electrical ($2–5k), plumbing ($1–3k), structural ($1–2k).
+        Spring sees a spike from winter freeze damage.
+      </div>
+      <div class="form-field"><label class="form-label">Annual Maintenance Budget ($)</label>
+        <input class="form-input" type="number" id="ann-maint" value="32000" step="500" oninput="renderAnnual()">
+        <span class="form-hint">Spread monthly with a spring spike. ~60% routine, ~40% reserve for unplanned repairs.</span></div>
+    </div>
+
+    <div class="ann-input-section" style="border-color:#7c5cbf;background:rgba(124,92,191,0.04)">
+      <div class="ann-input-section-title" style="color:#7c5cbf">Acquisition & Financing</div>
+      <div style="font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:12px">
+        Models the purchase price and debt service. SDE (Seller's Discretionary Earnings) = profit + owner's add-backs. Car washes typically trade at 3–5× SDE.
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Valuation Multiple (× SDE)</label>
+        <input class="form-input" type="number" id="acq-multiple" value="4" step="0.25" min="1" max="10" oninput="renderAnnual()">
+        <span class="form-hint">4× is typical for a KC-area self-serve in good condition. 3× = distressed / motivated seller. 5–6× = strong location, clean books.</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Owner Add-Backs ($/yr)</label>
+        <input class="form-input" type="number" id="acq-addbacks" value="0" step="1000" oninput="renderAnnual()">
+        <span class="form-hint">One-time or personal expenses run through the business (owner vehicle, travel, personal phone, etc.) added back to get true SDE. Common range: $5k–$20k.</span>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--ink2);margin-bottom:12px" id="acq-price-display">
+        Purchase price will calculate from SDE × multiple above.
+      </div>
+
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px;padding-top:4px">Seller Financing (up to 60% of price)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">Seller Finance %</label>
+          <input class="form-input" type="number" id="acq-seller-pct" value="40" min="0" max="60" step="5" oninput="renderAnnual()">
+          <span class="form-hint">Max 60% — seller carries this as a note</span>
+        </div>
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">Seller Rate (%)</label>
+          <input class="form-input" type="number" id="acq-seller-rate" value="5" min="1" max="12" step="0.25" oninput="renderAnnual()">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">Seller Term (years)</label>
+          <input class="form-input" type="number" id="acq-seller-term" value="5" min="1" max="10" step="1" oninput="renderAnnual()">
+        </div>
+        <div class="form-field" style="margin-bottom:0"></div>
+      </div>
+
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">SBA 7(a) Loan</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">SBA Loan %</label>
+          <input class="form-input" type="number" id="acq-sba-pct" value="50" min="0" max="90" step="5" oninput="renderAnnual()">
+          <span class="form-hint">SBA 7(a) typically funds up to 90% — seller + SBA + cash must = 100%</span>
+        </div>
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">SBA Rate (%)</label>
+          <input class="form-input" type="number" id="acq-sba-rate" value="7.5" min="1" max="15" step="0.25" oninput="renderAnnual()">
+          <span class="form-hint">SBA 7(a) prime + spread; typically 6.5–9.5% in 2024</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">SBA Term (years)</label>
+          <input class="form-input" type="number" id="acq-sba-term" value="10" min="5" max="25" step="1" oninput="renderAnnual()">
+        </div>
+        <div class="form-field" style="margin-bottom:0"></div>
+      </div>
+
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--ink2)" id="acq-cash-display">
+        Cash down payment will calculate automatically.
+      </div>
+    </div>
+
+    <div class="ann-input-section" style="border-color:var(--sky);background:rgba(59,158,218,0.04)">
+      <div class="ann-input-section-title" style="color:var(--sky)">Tax Estimation</div>
+      <div style="font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:12px">
+        Estimates federal self-employment and income tax owed on business profit. Not a substitute for a CPA — but useful for quarterly set-aside planning.
+      </div>
+      <div class="form-field">
+        <label class="form-label">Business Structure</label>
+        <select class="form-input" id="ann-tax-structure" oninput="renderAnnual()">
+          <option value="sole">Sole Proprietor / Single-Member LLC</option>
+          <option value="scorp">S-Corp (salary + distributions)</option>
+          <option value="ccorp">C-Corp (flat 21%)</option>
+        </select>
+        <span class="form-hint">Affects how self-employment tax is calculated.</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Filing Status</label>
+        <select class="form-input" id="ann-tax-filing" oninput="renderAnnual()">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Other Annual Income ($)</label>
+        <input class="form-input" type="number" id="ann-tax-other-income" value="0" step="1000" oninput="renderAnnual()">
+        <span class="form-hint">Spouse income, W-2 job, rentals, etc. Added to business profit for bracket calculation.</span>
+      </div>
+      <div id="ann-scorp-fields" style="display:none">
+        <div class="form-field">
+          <label class="form-label">S-Corp Reasonable Salary ($)</label>
+          <input class="form-input" type="number" id="ann-scorp-salary" value="60000" step="1000" oninput="renderAnnual()">
+          <span class="form-hint">SE tax applies only to this salary, not full profit. IRS requires a "reasonable" salary.</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">State Income Tax Rate (%)</label>
+        <input class="form-input" type="number" id="ann-tax-state" value="5.7" step="0.1" oninput="renderAnnual()">
+        <span class="form-hint">Kansas = 5.7% top rate. Missouri = 4.8%. Adjust for your state.</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">QBI Deduction (Section 199A)</label>
+        <select class="form-input" id="ann-tax-qbi" oninput="renderAnnual()">
+          <option value="yes">Yes — apply 20% QBI deduction (pass-through entity)</option>
+          <option value="no">No — do not apply</option>
+        </select>
+        <span class="form-hint">Most self-serve car wash owners qualify. Reduces taxable income by 20% of qualified business income.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: RESULTS -->
+  <div class="ann-results-panel">
+
+    <!-- HERO SUMMARY CARD -->
+    <div class="ann-hero-card" id="ann-hero-card">
+      <div class="ann-hero-title">Business Performance Summary</div>
+      <div class="ann-hero-grid" id="ann-hero-grid">
+        <!-- populated by renderAnnual -->
+      </div>
+      <div class="ann-hero-verdict" id="ann-hero-verdict"></div>
+    </div>
+
+    <!-- keep hidden legacy ids so existing JS still works -->
+    <div style="display:none">
+      <span id="ann-s-rev"></span>
+      <span id="ann-s-cost"></span>
+      <span id="ann-s-profit"></span>
+      <span id="ann-s-margin"></span>
+      <span id="ann-s-break"></span>
+    </div>
+
+    <!-- LABOR MODEL -->
+    <div class="ann-labor-card">
+      <div class="ann-labor-title">12-Hour Staffed Labor Model — <span id="ann-labor-bays">4</span>-Bay Self-Serve</div>
+      <div class="ann-labor-grid" id="ann-labor-grid"></div>
+      <div style="margin-top:12px;font-size:12px;color:var(--ink2);line-height:1.7" id="ann-labor-notes"></div>
+    </div>
+
+    <!-- ACQUISITION ANALYSIS CARD -->
+    <div class="ann-acq-card" id="ann-acq-card" style="display:none">
+      <div class="ann-acq-title">Acquisition & Debt Service Analysis</div>
+      <div class="ann-acq-grid" id="ann-acq-grid"></div>
+      <div id="ann-acq-waterfall-wrap"></div>
+      <div id="ann-acq-warn-wrap"></div>
+    </div>
+
+    <!-- CHART -->
+    <div class="ann-chart-card">
+      <div class="ann-chart-header">
+        <div class="ann-chart-title">Monthly Revenue, Cost & Profit</div>
+        <div class="ann-legend">
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:var(--green)"></div>Revenue</div>
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:var(--coral)"></div>Total Cost</div>
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:var(--sky)"></div>Profit</div>
+        </div>
+      </div>
+      <div class="ann-chart-area"><canvas id="ann-canvas"></canvas></div>
+    </div>
+
+    <!-- MONTHLY TABLE -->
+    <div class="ann-table-card">
+      <div class="ann-table-header">Month-by-Month Breakdown</div>
+      <div style="overflow-x:auto"><table class="ann-table">
+        <thead><tr>
+          <th>Month</th><th>Revenue</th><th>Labor</th><th>Maint.</th><th>Fixed</th><th>Total Cost</th><th>Profit</th><th>Margin</th>
+        </tr></thead>
+        <tbody id="ann-table-body"></tbody>
+        <tfoot><tr class="ann-tr-total" id="ann-table-foot"></tr></tfoot>
+      </table></div>
+    </div>
+
+    <!-- ASSUMPTIONS -->
+    <div class="ann-assumptions">
+      <div class="ann-assumptions-title">Model Assumptions</div>
+      <div id="ann-assumptions-body"></div>
+    </div>
+
+    <!-- TAX ANALYSIS -->
+    <div class="ann-tax-card" id="ann-tax-card">
+      <div class="ann-tax-header">
+        <div class="ann-tax-title">Estimated Tax Analysis</div>
+        <div style="font-size:12px;color:var(--ink2)">Based on <span id="ann-tax-year">2024</span> federal brackets &amp; rates. Not tax advice — consult a CPA.</div>
+      </div>
+
+      <!-- TOP ROW: 4 stat cards -->
+      <div class="ann-tax-stats" id="ann-tax-stats"></div>
+
+      <!-- BREAKDOWN TABLE -->
+      <div style="margin-top:16px" id="ann-tax-breakdown"></div>
+
+      <!-- QUARTERLY SCHEDULE -->
+      <div style="margin-top:16px" id="ann-tax-quarterly"></div>
+
+      <!-- NOTES -->
+      <div style="margin-top:14px;font-size:12px;color:var(--ink2);line-height:1.7;padding:12px 14px;background:var(--cream);border-radius:8px;border:1px solid var(--border)" id="ann-tax-notes"></div>
+    </div>
+
+  </div>
+</div>
+</div></div><!-- /tab-annual --><div class="tab-panel" id="tab-health"><div class="page">
+<div class="section-label">Business Health Metrics</div>
+<div class="section-sub">The numbers that actually tell you if your business is healthy — with benchmarks for what good looks like</div>
+
+<!-- HERO SCORE CARD -->
+<div class="health-hero" id="health-hero">
+  <div class="health-hero-title">Overall Health Score</div>
+  <div class="health-hero-sub">Based on your Annual Analysis inputs — update those numbers to recalculate</div>
+  <div class="health-score-row">
+    <div class="health-score-circle" id="health-score-circle">
+      <div class="health-score-num" id="health-score-num">—</div>
+      <div class="health-score-label">/ 100</div>
+    </div>
+    <div class="health-score-bars" id="health-score-bars"></div>
+  </div>
+</div>
+
+<!-- MANUAL INPUTS (override for users who haven't used Annual tab) -->
+<div class="health-inputs">
+  <div class="health-inputs-title">Your Numbers — pulled from Annual Analysis (or enter manually)</div>
+  <div class="health-inputs-grid">
+    <div class="form-field">
+      <label class="form-label">Annual Revenue ($)</label>
+      <input class="form-input" type="number" id="h-rev" placeholder="e.g. 239000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Annual Operating Profit ($)</label>
+      <input class="form-input" type="number" id="h-profit" placeholder="e.g. 125000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Annual Labor Cost ($)</label>
+      <input class="form-input" type="number" id="h-labor" placeholder="e.g. 55000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Annual Maintenance ($)</label>
+      <input class="form-input" type="number" id="h-maint" placeholder="e.g. 23000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Annual Fixed Costs ($)</label>
+      <input class="form-input" type="number" id="h-fixed" placeholder="e.g. 67000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Annual Debt Service ($)</label>
+      <input class="form-input" type="number" id="h-debt" placeholder="e.g. 81000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Purchase Price / Asset Value ($)</label>
+      <input class="form-input" type="number" id="h-price" placeholder="e.g. 501000" oninput="renderHealth()">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Cash Invested ($)</label>
+      <input class="form-input" type="number" id="h-cash" placeholder="e.g. 50000" oninput="renderHealth()">
+    </div>
+  </div>
+</div>
+
+<!-- PROFITABILITY METRICS -->
+<div class="health-section-header">Profitability</div>
+<div class="health-metric-grid">
+  <div class="health-metric-card" id="hm-gross-margin"></div>
+  <div class="health-metric-card" id="hm-net-margin"></div>
+  <div class="health-metric-card" id="hm-labor-pct"></div>
+  <div class="health-metric-card" id="hm-maint-pct"></div>
+</div>
+
+<!-- COVERAGE & DEBT -->
+<div class="health-section-header">Coverage & Debt</div>
+<div class="health-metric-grid">
+  <div class="health-metric-card" id="hm-dscr"></div>
+  <div class="health-metric-card" id="hm-fixed-coverage"></div>
+</div>
+
+<!-- EFFICIENCY & RETURN -->
+<div class="health-section-header">Efficiency & Return</div>
+<div class="health-metric-grid">
+  <div class="health-metric-card" id="hm-breakeven"></div>
+  <div class="health-metric-card" id="hm-roc"></div>
+</div>
+
+<!-- REFERENCE GUIDE -->
+<div class="health-section-header">Quick Reference — What Healthy Looks Like</div>
+<div id="health-reference"></div>
+
+</div></div><div class="tab-panel" id="tab-settings"><div class="page"><div class="section-label">Settings</div><div class="section-sub">Configure your business details and goals</div><div class="settings-section"><div class="settings-title">Business Profile</div><div class="form-grid"><div class="form-field"><label class="form-label">Business Name</label><input class="form-input" id="settings-biz-name" placeholder="e.g. Sparkling Clean Car Wash"></div><div class="form-field"><label class="form-label">Business Type</label><select class="form-input" id="settings-biz-type"><option value="carwash">Car Wash</option><option value="retail">Retail Shop</option><option value="food">Food / Cafe</option><option value="service">Service Business</option><option value="other">Other</option></select></div><div class="form-field"><label class="form-label">Unit Name (what you sell)</label><input class="form-input" id="settings-unit-label" placeholder="e.g. car, customer, order"><span class="form-hint">Used in insights and labels throughout the app</span></div><div class="form-field"><label class="form-label">Monthly Revenue Target ($)</label><input class="form-input" id="settings-monthly-target" type="number" min="0" placeholder="e.g. 15000"></div><div class="form-field"><label class="form-label">Monthly Fixed Costs ($)</label><input class="form-input" id="settings-fixed-costs" type="number" min="0" placeholder="e.g. 3200"><span class="form-hint">Rent, insurance, subscriptions — things you pay regardless</span></div><div class="form-field"><label class="form-label">Default Hourly Wage ($)</label><input class="form-input" id="settings-wage-rate" type="number" min="0" step="0.5" placeholder="e.g. 15.00"></div></div><button class="btn-submit" style="margin-top:20px" onclick="saveSettings()">Save Settings</button></div><div class="settings-section"><div class="settings-title">Data Management</div><div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center"><button class="btn-export-csv" onclick="exportCSV()">↓ Export All Data (CSV)</button><button class="btn-danger" onclick="clearAllData()">Delete All Data</button></div></div></div></div><script>const ENTRIES_KEY = 'dpp_entries';
+const SETTINGS_KEY = 'dpp_settings';
+
+function getEntries() {
+ try { return JSON.parse(localStorage.getItem(ENTRIES_KEY)) || []; } catch { return []; }
+}
+function saveEntries(e) { localStorage.setItem(ENTRIES_KEY, JSON.stringify(e)); }
+
+function getSettings() {
+ const defaults = { bizName:'', bizType:'carwash', unitLabel:'car', monthlyTarget:0, fixedCosts:0, wageRate:15 };
+ try { return Object.assign({}, defaults, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); }
+ catch { return defaults; }
+}
+function saveSettingsData(s) { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); }
+
+function fmt(n) {
+ if (isNaN(n)) return '$0.00';
+ return '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+}
+function fmtSign(n) {
+ return (n < 0 ? '-' : '+') + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+}
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function todayStr() { return new Date().toISOString().slice(0,10); }
+function dateLabel(str) {
+ if (!str) return '';
+ return new Date(str+'T12:00:00').toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+}
+
+// TABS 
+function switchTab(name, btn) {
+ document.querySelectorAll('.tab-panel').forEach(p =>p.classList.remove('active'));
+ document.querySelectorAll('.tab-btn').forEach(b =>b.classList.remove('active'));
+ document.getElementById('tab-'+name).classList.add('active');
+ btn.classList.add('active');
+ if (name === 'dashboard') renderDashboard();
+ if (name === 'history') renderHistory();
+ if (name === 'settings') loadSettings();
+ if (name === 'maintenance') renderMaintenance();
+ if (name === 'payment') syncCalc();
+ if (name === 'annual') renderAnnual();
+ if (name === 'health') renderHealth();
+}
+
+// EXPENSES 
+let expenseRows = [];
+let expId = 0;
+
+function addExpenseRow(desc='', amt='') {
+ expId++;
+ expenseRows.push({ id: expId, desc, amt });
+ renderExpenseList();
+}
+
+function removeExpenseRow(id) {
+ expenseRows = expenseRows.filter(r =>r.id !== id);
+ renderExpenseList();
+}
+
+function renderExpenseList() {
+ const list = document.getElementById('expense-list');
+ list.innerHTML = '';
+ expenseRows.forEach(row =>{
+ const div = document.createElement('div');
+ div.className = 'expense-row';
+ div.innerHTML = `
+ <input class="form-input" placeholder="e.g. Cleaning supplies, Electricity bill" value="${esc(row.desc)}" oninput="updateExp(${row.id},'desc',this.value)"><input class="form-input" type="number" min="0" step="0.01" placeholder="$0.00" value="${esc(row.amt)}" oninput="updateExp(${row.id},'amt',this.value)"><button class="btn-remove" onclick="removeExpenseRow(${row.id})">×</button>`;
+ list.appendChild(div);
+ });
+}
+
+function updateExp(id, field, val) {
+ const r = expenseRows.find(r =>r.id === id);
+ if (r) r[field] = val;
+}
+
+function updateAvgTicket() {
+ const rev = parseFloat(document.getElementById('entry-revenue').value) || 0;
+ const units = parseFloat(document.getElementById('entry-units').value) || 0;
+ document.getElementById('entry-avg-ticket').value = units >0 ? (rev/units).toFixed(2) : '';
+}
+
+// SAVE ENTRY 
+function saveEntry() {
+ const date = document.getElementById('entry-date').value;
+ const units = parseFloat(document.getElementById('entry-units').value) || 0;
+ const revenue = parseFloat(document.getElementById('entry-revenue').value) || 0;
+ const hours = parseFloat(document.getElementById('entry-hours').value) || 0;
+ const wages = parseFloat(document.getElementById('entry-wages').value) || 0;
+ const staff = parseFloat(document.getElementById('entry-staff').value) || 0;
+ const notes = document.getElementById('entry-notes').value.trim();
+ const weather = document.getElementById('entry-weather').value;
+
+ if (!date) { showAlert('Please select a date.', 'warning'); return; }
+ if (revenue === 0 && units === 0) { showAlert('Please enter at least your revenue or units served.', 'warning'); return; }
+
+ const otherExpenses = expenseRows.filter(r =>r.desc && parseFloat(r.amt) >0)
+ .map(r =>({ desc: r.desc, amt: parseFloat(r.amt) }));
+ const totalOther = otherExpenses.reduce((s,r) =>s + r.amt, 0);
+ const totalCosts = wages + totalOther;
+ const profit = revenue - totalCosts;
+ const avgTicket = units >0 ? revenue/units : 0;
+
+ const entry = { id:Date.now(), date, units, revenue, hours, wages, staff, otherExpenses, totalOther, totalCosts, profit, avgTicket, notes, weather };
+ const entries = getEntries();
+ const idx = entries.findIndex(e =>e.date === date);
+ if (idx >= 0) {
+ if (!confirm('You already have an entry for this date. Replace it?')) return;
+ entries[idx] = entry;
+ } else {
+ entries.push(entry);
+ }
+ entries.sort((a,b) =>a.date.localeCompare(b.date));
+ saveEntries(entries);
+
+ // Reset form
+ ['entry-units','entry-revenue','entry-hours','entry-wages','entry-staff','entry-avg-ticket'].forEach(id =>document.getElementById(id).value = '');
+ document.getElementById('entry-notes').value = '';
+ document.getElementById('entry-weather').value = '';
+ expenseRows = [];
+ addExpenseRow('Cleaning supplies','');
+ addExpenseRow('Electricity / Water','');
+
+ // Smart feedback
+ const tipType = profit < 0 ? 'danger' : profit < revenue * 0.1 ? 'warning' : 'success';
+ let msg = ` Saved ${dateLabel(date)}. Net profit: ${fmtSign(profit)}.`;
+ if (profit < 0) msg += ' Costs exceeded revenue today — worth reviewing your expenses.';
+ else if (avgTicket >0 && avgTicket < 12) msg += ' Tip: Your avg ticket is low — a premium wash option could help.';
+ else if (profit >0) msg += ' Nice work!';
+ showAlert(msg, tipType);
+
+ // Advance to next day
+ const next = new Date(date+'T12:00:00');
+ next.setDate(next.getDate()+1);
+ document.getElementById('entry-date').value = next.toISOString().slice(0,10);
+}
+
+function showAlert(msg, type='success') {
+ const area = document.getElementById('alert-area');
+ area.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+ setTimeout(() =>{ area.innerHTML = ''; }, 7000);
+}
+
+// DASHBOARD 
+function renderDashboard() {
+ const entries = getEntries();
+ const settings = getSettings();
+ const unit = settings.unitLabel || 'car';
+
+ if (!entries.length) {
+ document.getElementById('dash-alert').innerHTML =
+ `<div class="alert alert-warning">No entries yet — head to Log Entry to record your first day!</div>`;
+ } else {
+ document.getElementById('dash-alert').innerHTML = '';
+ }
+
+ const totalRev = entries.reduce((s,e) =>s+e.revenue, 0);
+ const totalExp = entries.reduce((s,e) =>s+e.totalCosts, 0);
+ const totalProf = entries.reduce((s,e) =>s+e.profit, 0);
+ const totalUnits= entries.reduce((s,e) =>s+e.units, 0);
+ const avgTicket = totalUnits >0 ? totalRev/totalUnits : 0;
+ const margin = totalRev >0 ? (totalProf/totalRev*100) : 0;
+
+ document.getElementById('dash-revenue').textContent = fmt(totalRev);
+ document.getElementById('dash-expenses').textContent = fmt(totalExp);
+ document.getElementById('dash-units').textContent = totalUnits.toLocaleString();
+ document.getElementById('dash-avg-ticket-sub').textContent = `avg ticket ${fmt(avgTicket)}`;
+ document.getElementById('dash-period-label').textContent = `${entries.length} day${entries.length!==1?'s':''} logged`;
+ document.getElementById('dash-revenue-sub').textContent = entries.length ? `${fmt(totalRev/entries.length)}/day avg` : 'all time';
+
+ const profEl = document.getElementById('dash-profit');
+ profEl.textContent = fmt(totalProf);
+ profEl.className = 'stat-value ' + (totalProf >= 0 ? 'val-green' : 'val-red');
+ document.getElementById('dash-margin-sub').textContent = margin.toFixed(1) + '% profit margin';
+
+ renderBarChart(entries);
+ renderInsights(entries, settings, unit);
+}
+
+function renderBarChart(entries) {
+ const chart = document.getElementById('bar-chart');
+ chart.innerHTML = '';
+ const recent = entries.slice(-14);
+ if (!recent.length) { chart.innerHTML = '<span style="color:var(--muted);font-size:13px;margin:auto">No data yet</span>'; return; }
+ const maxAbs = Math.max(...recent.map(e =>Math.abs(e.profit)), 1);
+ recent.forEach(e =>{
+ const pct = Math.max((Math.abs(e.profit)/maxAbs)*100, 3);
+ const isPos = e.profit >= 0;
+ const g = document.createElement('div');
+ g.className = 'bar-group';
+ const shortDate = dateLabel(e.date).replace(/,.*/, '');
+ g.innerHTML = `
+ <div class="bar-val" style="color:${isPos?'var(--green)':'var(--red)'}">${isPos?'+':'-'}$${Math.abs(e.profit).toFixed(0)}</div><div class="bar" style="height:${pct}%;background:${isPos?'var(--green)':'var(--red)'}"></div><span class="bar-label">${shortDate}</span>`;
+ chart.appendChild(g);
+ });
+}
+
+function renderInsights(entries, settings, unit) {
+ const grid = document.getElementById('insights-grid');
+ grid.innerHTML = '';
+ if (!entries.length) return;
+
+ const insights = [];
+
+ const best = entries.reduce((a,b) =>a.profit >b.profit ? a : b);
+ insights.push({ icon:'', bg:'var(--amber-l)', title:'Best Day Ever', value: fmt(best.profit), note: dateLabel(best.date) + (best.notes ? ` — "${best.notes}"` : '') });
+
+ const avgProf = entries.reduce((s,e) =>s+e.profit,0) / entries.length;
+ insights.push({ icon: avgProf>=0?'':'', bg: avgProf>=0?'var(--green-l)':'var(--red-l)', title:'Avg Daily Profit', value: fmtSign(avgProf), note:'across all logged days' });
+
+ const busiest = entries.reduce((a,b) =>a.units >b.units ? a : b);
+ if (busiest.units >0)
+ insights.push({ icon:'', bg:'var(--sky-l)', title:`Busiest Day`, value: busiest.units+' '+unit+'s', note: dateLabel(busiest.date) });
+
+ const totalUnits = entries.reduce((s,e) =>s+e.units, 0);
+ const totalCosts = entries.reduce((s,e) =>s+e.totalCosts, 0);
+ if (totalUnits >0)
+ insights.push({ icon:'', bg:'var(--coral-l)', title:`Cost per ${unit}`, value: fmt(totalCosts/totalUnits), note:`all wages + expenses ÷ ${unit}s served` });
+
+ if (settings.monthlyTarget >0) {
+ const month = new Date().toISOString().slice(0,7);
+ const mRev = entries.filter(e =>e.date.startsWith(month)).reduce((s,e) =>s+e.revenue, 0);
+ const pct = Math.min(mRev/settings.monthlyTarget*100, 100).toFixed(0);
+ insights.push({ icon:'', bg:'var(--green-l)', title:'Monthly Target', value: pct+'%', note:`${fmt(mRev)} of ${fmt(settings.monthlyTarget)} goal this month` });
+ }
+
+ const weatherMap = {};
+ entries.forEach(e =>{ if (e.weather) { if (!weatherMap[e.weather]) weatherMap[e.weather]={t:0,n:0}; weatherMap[e.weather].t+=e.profit; weatherMap[e.weather].n++; } });
+ const weathers = Object.entries(weatherMap).map(([w,d]) =>({w, avg: d.t/d.n}));
+ if (weathers.length >= 2) {
+ const bestW = weathers.reduce((a,b) =>a.avg>b.avg?a:b);
+ const emoji = {sunny:'',cloudy:'',rainy:'',hot:'',cold:'',windy:''};
+ insights.push({ icon: emoji[bestW.w]||'', bg:'var(--sky-l)', title:'Best Weather for Sales', value: bestW.w.charAt(0).toUpperCase()+bestW.w.slice(1), note:`avg ${fmtSign(bestW.avg)} profit on ${bestW.w} days` });
+ }
+
+ insights.forEach(ins =>{
+ const card = document.createElement('div');
+ card.className = 'insight-card';
+ card.innerHTML = `
+ <div class="insight-icon" style="background:${ins.bg}">${ins.icon}</div><div><div class="insight-title">${ins.title}</div><div class="insight-value">${ins.value}</div><div class="insight-note">${ins.note}</div></div>`;
+ grid.appendChild(card);
+ });
+}
+
+// HISTORY 
+function renderHistory() {
+ const entries = [...getEntries()].reverse();
+ const body = document.getElementById('history-body');
+ if (!entries.length) { body.innerHTML = '<div class="empty-state"><div class="big"></div><p>No entries yet!</p></div>'; return; }
+
+ const table = document.createElement('table');
+ table.className = 'history-table';
+ table.innerHTML = `<thead><tr><th>Date</th><th>Units</th><th>Revenue</th><th>Wages</th><th>Other</th><th>Profit</th><th>Avg Ticket</th><th>Weather</th><th>Notes</th><th></th></tr></thead><tbody id="hist-tbody"></tbody>`;
+ body.innerHTML = '';
+ body.appendChild(table);
+
+ const wEmoji = {sunny:'',cloudy:'',rainy:'',hot:'',cold:'',windy:''};
+ const tbody = document.getElementById('hist-tbody');
+ entries.forEach(e =>{
+ const cls = e.profit >0 ? 'profit-pos' : 'profit-neg';
+ const tr = document.createElement('tr');
+ tr.innerHTML = `
+ <td><strong>${dateLabel(e.date)}</strong></td><td>${e.units||0}</td><td>${fmt(e.revenue)}</td><td>${fmt(e.wages)}</td><td>${fmt(e.totalOther)}</td><td><span class="profit-pill ${cls}">${fmtSign(e.profit)}</span></td><td>${e.avgTicket >0 ? fmt(e.avgTicket) : '—'}</td><td>${wEmoji[e.weather]||'—'}</td><td style="color:var(--muted);font-size:12px">${esc(e.notes||'')}</td><td><button class="btn-delete-entry" onclick="deleteEntry(${e.id})"></button></td>`;
+ tbody.appendChild(tr);
+ });
+}
+
+function deleteEntry(id) {
+ if (!confirm('Delete this entry? This cannot be undone.')) return;
+ saveEntries(getEntries().filter(e =>e.id !== id));
+ renderHistory();
+}
+
+// SETTINGS 
+function loadSettings() {
+ const s = getSettings();
+ document.getElementById('settings-biz-name').value = s.bizName || '';
+ document.getElementById('settings-biz-type').value = s.bizType || 'carwash';
+ document.getElementById('settings-unit-label').value = s.unitLabel || 'car';
+ document.getElementById('settings-monthly-target').value = s.monthlyTarget || '';
+ document.getElementById('settings-fixed-costs').value = s.fixedCosts || '';
+ document.getElementById('settings-wage-rate').value = s.wageRate || '';
+}
+
+function saveSettings() {
+ const s = {
+ bizName: document.getElementById('settings-biz-name').value.trim(),
+ bizType: document.getElementById('settings-biz-type').value,
+ unitLabel: document.getElementById('settings-unit-label').value.trim() || 'car',
+ monthlyTarget: parseFloat(document.getElementById('settings-monthly-target').value) || 0,
+ fixedCosts: parseFloat(document.getElementById('settings-fixed-costs').value) || 0,
+ wageRate: parseFloat(document.getElementById('settings-wage-rate').value) || 15,
+ };
+ saveSettingsData(s);
+ if (s.bizName) { document.getElementById('biz-name').value = s.bizName; document.title = s.bizName + ' — Daily Profit Pulse'; }
+ alert(' Settings saved!');
+}
+
+function clearAllData() {
+ if (!confirm('Delete ALL entries and settings permanently?')) return;
+ localStorage.removeItem(ENTRIES_KEY);
+ localStorage.removeItem(SETTINGS_KEY);
+ location.reload();
+}
+
+// CSV EXPORT 
+function exportCSV() {
+ const entries = getEntries();
+ if (!entries.length) { alert('No entries to export yet.'); return; }
+ const headers = ['Date','Units','Revenue','Wages','Other Expenses','Total Costs','Profit','Avg Ticket','Staff','Hours','Weather','Notes'];
+ const rows = entries.map(e =>[e.date,e.units,e.revenue.toFixed(2),e.wages.toFixed(2),e.totalOther.toFixed(2),e.totalCosts.toFixed(2),e.profit.toFixed(2),e.avgTicket.toFixed(2),e.staff,e.hours,e.weather||'',e.notes||'']);
+ const csv = [headers,...rows].map(r =>r.map(c =>`"${c}"`).join(',')).join('\n');
+ const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([csv],{type:'text/csv'})), download:'profit-pulse-export.csv' });
+ a.click();
+}
+
+// SEED EXAMPLE DATA 
+(function seedExample() {
+ if (getEntries().length >0) return;
+ const today = new Date();
+ const entries = [];
+ const wList = ['sunny','sunny','sunny','cloudy','rainy','hot','cloudy','sunny','rainy','sunny','cloudy','sunny','sunny','hot'];
+ const nList = ['Good morning rush','Steady all day','Picked up after lunch','Slow but steady','Rainy — very slow','Hot day, lots of cars!','Quiet Monday','Great Tuesday','Rain all day','Weekend rush','Normal day','Busy afternoon','Best day this month!','Super hot, car wash packed'];
+
+ for (let i = 13; i >= 0; i--) {
+ const d = new Date(today); d.setDate(d.getDate()-i);
+ if (d.getDay() === 0) continue;
+ const weather = wList[i];
+ const isRainy = weather === 'rainy';
+ const units = isRainy ? Math.floor(Math.random()*12+6) : Math.floor(Math.random()*28+32);
+ const avgT = Math.random()*5+13;
+ const revenue = parseFloat((units*avgT).toFixed(2));
+ const wages = parseFloat((Math.random()*50+130).toFixed(2));
+ const supplies= parseFloat((Math.random()*18+14).toFixed(2));
+ const misc = parseFloat((Math.random()*12+3).toFixed(2));
+ const totalOther = parseFloat((supplies+misc).toFixed(2));
+ const totalCosts = parseFloat((wages+totalOther).toFixed(2));
+ entries.push({
+ id: Date.now()-i*999999, date: d.toISOString().slice(0,10),
+ units, revenue, wages, staff:2, hours:8,
+ otherExpenses:[{desc:'Cleaning supplies',amt:supplies},{desc:'Misc',amt:misc}],
+ totalOther, totalCosts,
+ profit: parseFloat((revenue-totalCosts).toFixed(2)),
+ avgTicket: parseFloat((revenue/units).toFixed(2)),
+ notes: nList[i], weather
+ });
+ }
+ saveEntries(entries);
+})();
+
+// MAINTENANCE 
+const REPAIRS_KEY = 'dpp_repairs';
+const SCHEDULED_KEY = 'dpp_scheduled';
+
+const CAT_ICONS = { equipment:'', plumbing:'', electrical:'', vehicle:'', building:'', other:'' };
+const RECUR_LABELS = { none:'One-time', monthly:'Monthly', quarterly:'Quarterly', biannual:'Every 6 mo', annual:'Annual' };
+const PRIORITY_LABELS = { high:'High', medium:'Medium', low:'Low' };
+
+function getRepairs() { try { return JSON.parse(localStorage.getItem(REPAIRS_KEY)) || []; } catch { return []; } }
+function getScheduled() { try { return JSON.parse(localStorage.getItem(SCHEDULED_KEY)) || []; } catch { return []; } }
+function saveRepairs(r) { localStorage.setItem(REPAIRS_KEY, JSON.stringify(r)); }
+function saveScheduled(s){ localStorage.setItem(SCHEDULED_KEY, JSON.stringify(s)); }
+
+function daysUntil(dateStr) {
+ const now = new Date(); now.setHours(0,0,0,0);
+ const target= new Date(dateStr+'T12:00:00');
+ return Math.round((target - now) / 86400000);
+}
+
+function saveRepair() {
+ const item = document.getElementById('mr-item').value.trim();
+ const desc = document.getElementById('mr-desc').value.trim();
+ const date = document.getElementById('mr-date').value;
+ const cost = parseFloat(document.getElementById('mr-cost').value) || 0;
+ const cat = document.getElementById('mr-cat').value;
+ const vendor = document.getElementById('mr-vendor').value.trim();
+ const notes = document.getElementById('mr-notes').value.trim();
+
+ if (!item || !date) { alert('Please enter the equipment name and date.'); return; }
+
+ const repairs = getRepairs();
+ repairs.unshift({ id: Date.now(), item, desc, date, cost, cat, vendor, notes });
+ saveRepairs(repairs);
+ ['mr-item','mr-desc','mr-cost','mr-vendor','mr-notes'].forEach(id =>document.getElementById(id).value = '');
+ document.getElementById('mr-date').value = todayStr();
+ renderMaintenance();
+}
+
+function saveScheduled() {
+ const item = document.getElementById('ms-item').value.trim();
+ const desc = document.getElementById('ms-desc').value.trim();
+ const date = document.getElementById('ms-date').value;
+ const cost = parseFloat(document.getElementById('ms-cost').value) || 0;
+ const cat = document.getElementById('ms-cat').value;
+ const priority = document.getElementById('ms-priority').value;
+ const recur = document.getElementById('ms-recur').value;
+
+ if (!item || !date) { alert('Please enter the equipment name and due date.'); return; }
+
+ const scheduled = getScheduled();
+ scheduled.push({ id: Date.now(), item, desc, date, cost, cat, priority, recur, done: false });
+ scheduled.sort((a,b) =>a.date.localeCompare(b.date));
+ saveScheduled(scheduled);
+ ['ms-item','ms-desc','ms-cost'].forEach(id =>document.getElementById(id).value = '');
+ document.getElementById('ms-date').value = '';
+ renderMaintenance();
+}
+
+function markDone(id) {
+ let scheduled = getScheduled();
+ const item = scheduled.find(s =>s.id === id);
+ if (!item) return;
+
+ // Log it as a repair automatically
+ const repairs = getRepairs();
+ repairs.unshift({
+ id: Date.now(), item: item.item, desc: item.desc + ' (scheduled)',
+ date: todayStr(), cost: item.cost, cat: item.cat, vendor: '', notes: 'Completed from schedule'
+ });
+ saveRepairs(repairs);
+
+ // If recurring, push next due date
+ if (item.recur !== 'none') {
+ const next = new Date(item.date+'T12:00:00');
+ const months = { monthly:1, quarterly:3, biannual:6, annual:12 }[item.recur] || 0;
+ next.setMonth(next.getMonth() + months);
+ item.date = next.toISOString().slice(0,10);
+ item.done = false;
+ } else {
+ scheduled = scheduled.filter(s =>s.id !== id);
+ }
+ saveScheduled(scheduled);
+ renderMaintenance();
+}
+
+function deleteScheduled(id) {
+ if (!confirm('Remove this scheduled item?')) return;
+ saveScheduled(getScheduled().filter(s =>s.id !== id));
+ renderMaintenance();
+}
+
+function deleteRepair(id) {
+ if (!confirm('Delete this repair record?')) return;
+ saveRepairs(getRepairs().filter(r =>r.id !== id));
+ renderMaintenance();
+}
+
+function renderMaintenance() {
+ const repairs = getRepairs();
+ const scheduled = getScheduled();
+ const today = new Date(); today.setHours(0,0,0,0);
+
+ // STATS 
+ const thisYear = today.getFullYear();
+ const spentYTD = repairs
+ .filter(r =>new Date(r.date+'T12:00:00').getFullYear() === thisYear)
+ .reduce((s,r) =>s + r.cost, 0);
+
+ const upcoming90 = scheduled
+ .filter(s =>{ const d = daysUntil(s.date); return d >= 0 && d <= 90; })
+ .reduce((s,i) =>s + i.cost, 0);
+
+ // Reserve = sum of all upcoming costs (next 12 months)
+ const reserveGoal = scheduled
+ .filter(s =>daysUntil(s.date) >= 0 && daysUntil(s.date) <= 365)
+ .reduce((s,i) =>s + i.cost, 0);
+
+ const weeklySetAside = reserveGoal >0 ? (reserveGoal / 52).toFixed(2) : 0;
+
+ document.getElementById('ms-spent').textContent = fmt(spentYTD);
+ document.getElementById('ms-upcoming').textContent= fmt(upcoming90);
+ document.getElementById('ms-reserve').textContent = fmt(reserveGoal);
+ document.getElementById('ms-weekly').textContent = fmt(weeklySetAside);
+
+ // ALERTS 
+ const alerts = [];
+ const overdue = scheduled.filter(s =>daysUntil(s.date) < 0);
+ const dueSoon = scheduled.filter(s =>{ const d = daysUntil(s.date); return d >= 0 && d <= 14; });
+ const highOverdue = overdue.filter(s =>s.priority === 'high');
+
+ if (highOverdue.length)
+ alerts.push({ type:'red', icon:'', msg:`${highOverdue.length} HIGH PRIORITY item${highOverdue.length>1?'s are':' is'} overdue: ${highOverdue.map(s=>s.item).join(', ')}. Address immediately.` });
+ else if (overdue.length)
+ alerts.push({ type:'amber', icon:'', msg:`${overdue.length} maintenance item${overdue.length>1?'s are':' is'} past due. Schedule time to address ${overdue.length>1?'these':'this'} soon.` });
+
+ if (dueSoon.length && !overdue.length)
+ alerts.push({ type:'amber', icon:'', msg:`${dueSoon.length} item${dueSoon.length>1?'s are':' is'} due within the next 14 days. Plan ahead to avoid downtime.` });
+
+ if (weeklySetAside >0)
+ alerts.push({ type:'sky', icon:'', msg:`Set aside ${fmt(weeklySetAside)}/week to cover your scheduled maintenance for the next 12 months (total: ${fmt(reserveGoal)}).` });
+
+ document.getElementById('maint-alerts').innerHTML = alerts.map(a =>`
+ <div class="alert alert-${a.type}" style="margin-bottom:12px"><span class="alert-icon">${a.icon}</span><span>${a.msg}</span></div>`).join('');
+
+ // UPCOMING TABLE 
+ const upcomingWrap = document.getElementById('upcoming-table-body');
+ if (!scheduled.length) {
+ upcomingWrap.innerHTML = `<div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">No scheduled maintenance yet — add items using the form above.</div>`;
+ } else {
+ const rows = scheduled.map(s =>{
+ const days = daysUntil(s.date);
+ const badge = days < 0
+ ? `<span class="overdue-badge">Overdue ${Math.abs(days)}d</span>`
+ : days <= 14
+ ? `<span class="due-soon-badge">Due in ${days}d</span>`
+ : `<span style="font-size:12px;color:var(--muted)">${days} days</span>`;
+ const recBadge = s.recur !== 'none' ? `<span class="recur-badge">↻ ${RECUR_LABELS[s.recur]}</span>` : '';
+ return `<tr><td>${CAT_ICONS[s.cat]||''} <strong>${esc(s.item)}</strong><br><span style="font-size:12px;color:var(--muted)">${esc(s.desc)}</span></td><td>${s.date}<br>${badge}</td><td><span class="priority-badge priority-${s.priority}">${PRIORITY_LABELS[s.priority]}</span></td><td style="font-weight:600;color:var(--amber)">${fmt(s.cost)}</td><td>${recBadge}</td><td style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><button class="maint-complete-btn" onclick="markDone(${s.id})">Done</button><button class="maint-delete-btn" onclick="deleteScheduled(${s.id})"></button></td></tr>`;
+ }).join('');
+ upcomingWrap.innerHTML = `<div style="overflow-x:auto"><table class="maint-table"><thead><tr><th>Equipment / Task</th><th>Due Date</th><th>Priority</th><th>Est. Cost</th><th>Recurrence</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ }
+
+ // REPAIR HISTORY TABLE 
+ const repairWrap = document.getElementById('repair-table-body');
+ if (!repairs.length) {
+ repairWrap.innerHTML = `<div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">No repairs logged yet — use the form above to record completed work.</div>`;
+ } else {
+ const rows = repairs.map(r =>`<tr><td>${r.date}</td><td>${CAT_ICONS[r.cat]||''} <strong>${esc(r.item)}</strong></td><td>${esc(r.desc)}</td><td style="font-weight:600;color:var(--red)">${fmt(r.cost)}</td><td style="color:var(--muted);font-size:12px">${esc(r.vendor)}</td><td style="color:var(--muted);font-size:12px">${esc(r.notes)}</td><td><button class="maint-delete-btn" onclick="deleteRepair(${r.id})"></button></td></tr>`).join('');
+ repairWrap.innerHTML = `<div style="overflow-x:auto"><table class="maint-table"><thead><tr><th>Date</th><th>Equipment</th><th>Work Done</th><th>Cost</th><th>Vendor</th><th>Notes</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ }
+}
+
+function exportMaintCSV() {
+ const repairs = getRepairs();
+ if (!repairs.length) { alert('No repair records to export.'); return; }
+ const headers = ['Date','Category','Equipment','Description','Cost','Vendor','Notes'];
+ const rows = repairs.map(r =>[r.date, r.cat, `"${r.item}"`, `"${r.desc}"`, r.cost, `"${r.vendor}"`, `"${(r.notes||'').replace(/"/g,'""')}"`]);
+ const csv = [headers,...rows].map(r =>r.join(',')).join('\n');
+ const a = document.createElement('a');
+ a.href = 'data:text/csv,' + encodeURIComponent(csv);
+ a.download = 'maintenance-log.csv';
+ a.click();
+}
+
+// SEED MAINTENANCE EXAMPLES 
+(function seedMaintenance() {
+ if (getRepairs().length >0 || getScheduled().length >0) return;
+
+ const now = new Date();
+ const daysAgo = n =>{ const d = new Date(now); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
+ const daysOut = n =>{ const d = new Date(now); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+
+ saveRepairs([
+ { id:1, item:'High-pressure pump', desc:'Replaced worn seals and pressure valve', date:daysAgo(45), cost:380, cat:'equipment', vendor:'ProWash Parts', notes:'Seals part #PW-441' },
+ { id:2, item:'Conveyor belt', desc:'Replaced frayed section (6ft)', date:daysAgo(30), cost:220, cat:'equipment', vendor:'Mike\'s Repair', notes:'Check again in 6 months' },
+ { id:3, item:'Electrical panel', desc:'Fixed tripped breaker — dryer circuit', date:daysAgo(20), cost:150, cat:'electrical', vendor:'Ace Electric', notes:'May need full panel upgrade soon' },
+ { id:4, item:'Water softener', desc:'Monthly salt refill and filter rinse', date:daysAgo(10), cost:65, cat:'plumbing', vendor:'Self', notes:'' },
+ { id:5, item:'Tunnel entrance roller', desc:'Lubricated bearings, adjusted alignment', date:daysAgo(5), cost:0, cat:'equipment', vendor:'Self', notes:'Free maintenance, part of routine' },
+ ]);
+
+ saveScheduled([
+ { id:10, item:'Dryer motors', desc:'Annual inspection & belt replacement', date:daysOut(8), cost:450, cat:'equipment', priority:'high', recur:'annual', done:false },
+ { id:11, item:'Water reclaim system', desc:'Quarterly pump-out & filter clean', date:daysOut(12), cost:180, cat:'plumbing', priority:'medium', recur:'quarterly', done:false },
+ { id:12, item:'Soft-cloth brushes', desc:'Check wear level — replace if needed', date:daysOut(25), cost:600, cat:'equipment', priority:'medium', recur:'biannual', done:false },
+ { id:13, item:'Air compressor', desc:'Drain tank, replace filter, oil change', date:daysOut(35), cost:90, cat:'equipment', priority:'low', recur:'quarterly', done:false },
+ { id:14, item:'POS terminal', desc:'Software update & receipt paper restock', date:daysOut(45), cost:0, cat:'other', priority:'low', recur:'monthly', done:false },
+ { id:15, item:'Roof & drainage', desc:'Annual gutter clean & roof inspection', date:daysOut(90), cost:350, cat:'building', priority:'medium', recur:'annual', done:false },
+ { id:16, item:'Chemical dispenser', desc:'Calibration check & nozzle replacement', date:daysOut(110), cost:120, cat:'plumbing', priority:'medium', recur:'biannual', done:false },
+ { id:17, item:'Electrical panel', desc:'Full panel upgrade (recommended by tech)', date:daysOut(150), cost:2800, cat:'electrical', priority:'high', recur:'none', done:false },
+ ]);
+})();
+
+// Set default dates on maintenance forms
+document.getElementById('mr-date').value = todayStr();
+
+// PAYMENT CALCULATOR 
+function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+// KC Lightning adoption estimate — static market data baked in
+function renderKCEstimate(adoptPct) {
+ // KC, KS metro area stats (Wyandotte County + broader KC metro)
+ const kcMetroPop = 2_230_000; // KC metro total population
+ const kcKsAdultPop = 122_000; // Kansas City, KS proper adult population (18+)
+ const kcMetroAdults = 1_620_000; // KC metro adult population
+ const cryptoOwnersPct = 0.149; // ~14.9% of US adults own some crypto (2024 estimate)
+ const lightningOfCrypto= 0.054; // ~5.4% of crypto users actively use Lightning
+ const carWashFreqMonth = 0.35; // avg adult washes car 0.35×/month (4.2×/year)
+ const btcPayWilling = 0.52; // ~52% of Lightning users willing to pay at retail
+
+ const adoptFraction = adoptPct / 100;
+
+ // Two approaches: bottom-up from adoption %, and top-down from crypto data
+ const bottomUp = Math.round(kcMetroAdults * adoptFraction * carWashFreqMonth * btcPayWilling);
+ const topDown = Math.round(kcMetroAdults * cryptoOwnersPct * lightningOfCrypto * carWashFreqMonth * btcPayWilling);
+ const blended = Math.round((bottomUp + topDown) / 2);
+
+ // KC, KS city-only estimate (smaller catchment)
+ const kcKsOnly = Math.round(kcKsAdultPop * adoptFraction * carWashFreqMonth * btcPayWilling);
+
+ const el = document.getElementById('kc-estimate-body');
+ if (!el) return;
+
+ el.innerHTML = `
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px"><div style="background:var(--paper);border:1px solid rgba(59,158,218,0.2);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--sky);margin-bottom:4px">KC Metro Monthly</div><div style="font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--ink)">${blended.toLocaleString()}</div><div style="font-size:11px;color:var(--muted)">potential LN car washes</div></div><div style="background:var(--paper);border:1px solid rgba(59,158,218,0.2);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--sky);margin-bottom:4px">KC, KS City Monthly</div><div style="font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--ink)">${kcKsOnly.toLocaleString()}</div><div style="font-size:11px;color:var(--muted)">if you capture your city only</div></div></div><div style="font-size:12px;color:var(--ink2);line-height:1.75;background:var(--paper);border-radius:8px;padding:12px;border:1px solid rgba(59,158,218,0.15)"><strong>How this is calculated:</strong><br>KC metro has ~1.62M adults. With an estimated <strong>${adoptPct}% Lightning adoption</strong>, that's
+ ~${Math.round(kcMetroAdults * adoptFraction).toLocaleString()} active Lightning users.
+ ~52% are willing to pay at retail, and the average adult washes their car ~4× a year —
+ giving roughly <strong>${blended.toLocaleString()} Lightning car washes/month across the metro</strong>.<br><br><span style="color:var(--muted)">For context: ~14.9% of US adults own crypto, but only ~5.4% of those actively use Lightning.
+ Kansas City ranks in the top 25 US metros for crypto interest. Adoption is growing ~30%/year.
+ These are estimates — real numbers depend heavily on your marketing and whether you're the
+ only Lightning-accepting car wash in the area (first-mover advantage).
+ </span></div>`;
+}
+
+function syncCalc() {
+  const transactions = v('txt-transactions');
+  const ticket       = v('txt-ticket');
+  const lnPctShare   = v('txt-ln-pct') / 100;
+  const kcAdopt      = v('txt-kc-adopt');
+
+  renderKCEstimate(kcAdopt);
+
+  const monthlyRevenue = transactions * ticket;
+  const lnTxns         = transactions * lnPctShare;
+  const cardTxns       = transactions * (1 - lnPctShare);
+  const lnRevenue      = monthlyRevenue * lnPctShare;
+  const cardRevenue    = monthlyRevenue * (1 - lnPctShare);
+
+  // Fee params
+  const lnTotalPct = (1.0 + v('ln-volatility')) / 100;
+  const sqPct      = v('sq-pct') / 100;
+  const sqFlat     = v('sq-flat');
+  const ccTotalPct = (v('cc-pct') + v('cc-markup')) / 100;
+  const ccFlat     = v('cc-flat');
+
+  // All-Lightning scenario (fees only)
+  const lnFees_all  = monthlyRevenue * lnTotalPct;
+  const sqFees_all  = (monthlyRevenue * sqPct) + (transactions * sqFlat);
+  const ccFees_all  = (monthlyRevenue * ccTotalPct) + (transactions * ccFlat);
+
+  // Mixed scenario (lnPctShare% Lightning + rest Square Card)
+  const mixed_lnFees = lnRevenue * lnTotalPct;
+  const mixed_sqFees = (cardRevenue * sqPct) + (cardTxns * sqFlat);
+  const mixedTotal   = mixed_lnFees + mixed_sqFees;
+  const mixedEffRate = monthlyRevenue > 0 ? (mixedTotal / monthlyRevenue * 100) : 0;
+
+  // Effective rates
+  const lnEffRate = monthlyRevenue > 0 ? (lnFees_all / monthlyRevenue * 100) : 0;
+  const sqEffRate = monthlyRevenue > 0 ? (sqFees_all / monthlyRevenue * 100) : 0;
+  const ccEffRate = monthlyRevenue > 0 ? (ccFees_all / monthlyRevenue * 100) : 0;
+
+  function set(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+  // Monthly breakdown display — opp cost rows now show mixed-model saving instead
+  set('r-ln-fees',  fmt(lnFees_all));
+  set('r-ln-total', fmt(lnFees_all));
+  set('r-ln-rate',  lnEffRate.toFixed(2) + '%');
+  set('r-sq-fees',  fmt(sqFees_all));
+  set('r-sq-total', fmt(sqFees_all));
+  set('r-sq-rate',  sqEffRate.toFixed(2) + '%');
+  set('r-cc-fees',  fmt(ccFees_all));
+  set('r-cc-total', fmt(ccFees_all));
+  set('r-cc-rate',  ccEffRate.toFixed(2) + '%');
+
+  // Annual
+  const savVsSq = (sqFees_all - lnFees_all) * 12;
+  const savVsCc = (ccFees_all - lnFees_all) * 12;
+
+  const annSqEl = document.getElementById('ann-ln-sq');
+  const annCcEl = document.getElementById('ann-ln-cc');
+  if (annSqEl) { annSqEl.textContent = (savVsSq >= 0 ? '+' : '') + fmt(Math.abs(savVsSq)); annSqEl.className = 'calc-annual-val ' + (savVsSq >= 0 ? 'sky' : 'red'); }
+  if (annCcEl) { annCcEl.textContent = (savVsCc >= 0 ? '+' : '') + fmt(Math.abs(savVsCc)); annCcEl.className = 'calc-annual-val ' + (savVsCc >= 0 ? 'sky' : 'red'); }
+
+  // Mixed annual saving vs all-card
+  const annMixedEl = document.getElementById('ann-mixed');
+  if (annMixedEl) {
+    const savMixed = (sqFees_all - mixedTotal) * 12;
+    annMixedEl.textContent = (savMixed >= 0 ? '+' : '') + fmt(Math.abs(savMixed));
+    annMixedEl.className = 'calc-annual-val ' + (savMixed >= 0 ? 'sky' : 'red');
+  }
+
+  // Considerations
+  const consEl = document.getElementById('considerations');
+  if (consEl) {
+    const lnCheaper = lnFees_all < sqFees_all;
+    const mixedSaving = sqFees_all - mixedTotal;
+    const pros = lnCheaper
+      ? [`Saves ${fmt((sqFees_all - lnFees_all) * 12)}/year vs Square card fees alone`,
+         `At ${Math.round(lnPctShare * 100)}% Lightning adoption, your mixed model saves ${fmt(mixedSaving)}/month vs all-card`,
+         'No chargebacks — Lightning payments are final and irreversible',
+         'Simple 1% flat fee with no per-transaction flat charge']
+      : [`Card processing is cheaper at your current settings`,
+         `Raise the Lightning % to see where it becomes cost-competitive`,
+         'Lightning still eliminates chargeback risk regardless of fee comparison'];
+
+    const cons = [
+      'Self-serve customers need a Lightning wallet app on their phone — adoption is still low (~1–2% of KC adults)',
+      'Kiosk hardware must support QR code display or NFC for Lightning payments',
+      'BTC-to-USD conversion happens via Square — rate varies daily',
+      'Kansas has no specific crypto payment regulations as of 2024, but worth verifying annually',
+      'Being the first Lightning-accepting car wash in KC could be a differentiator worth marketing',
+    ];
+
+    consEl.innerHTML =
+      '<div style="margin-bottom:12px"><div style="font-weight:600;color:var(--green);margin-bottom:8px">' + (lnCheaper ? 'Why Lightning wins here:' : 'Arguments for Lightning:') + '</div>' +
+      pros.map(p => `<div style="padding:4px 0 4px 14px;border-left:2px solid var(--green);margin-bottom:4px">${p}</div>`).join('') + '</div>' +
+      '<div><div style="font-weight:600;color:var(--amber);margin-bottom:8px">Things to think through:</div>' +
+      cons.map(c => `<div style="padding:4px 0 4px 14px;border-left:2px solid var(--amber);margin-bottom:4px">${c}</div>`).join('') + '</div>';
+  }
+}
+
+
+// ── ANNUAL ANALYSIS ──────────────────────────────────────────────────────
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// KC seasonal revenue index (July = 1.0 = peak)
+// Based on KC weather: brutal winters, hot humid summers, shoulder seasons
+const KC_SEASONAL = [0.38, 0.44, 0.62, 0.80, 0.91, 0.96, 1.00, 0.97, 0.88, 0.72, 0.50, 0.36];
+
+// Maintenance monthly distribution (annual = 1.0 total)
+// Spring spike: March/April (post-freeze damage); summer routine; winter minimal
+const MAINT_DIST   = [0.06, 0.06, 0.13, 0.13, 0.09, 0.08, 0.07, 0.07, 0.08, 0.08, 0.08, 0.07];
+
+// Utility scalar vs base (summer: AC + high volume; winter: heating)
+const UTIL_SCALAR  = [0.90, 0.88, 0.95, 1.00, 1.10, 1.25, 1.35, 1.30, 1.10, 0.98, 0.90, 0.88];
+
+function annV(id) { const el = document.getElementById(id); return (el && el.value !== '') ? (parseFloat(el.value) || 0) : 0; }
+function annFmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+function calcTax(businessProfit) {
+  const structure  = (document.getElementById('ann-tax-structure') || {value:'sole'}).value;
+  const filing     = (document.getElementById('ann-tax-filing')    || {value:'single'}).value;
+  const otherInc   = parseFloat((document.getElementById('ann-tax-other-income') || {value:'0'}).value) || 0;
+  const stateRate  = (parseFloat((document.getElementById('ann-tax-state') || {value:'5.7'}).value) || 0) / 100;
+  const useQBI     = (document.getElementById('ann-tax-qbi') || {value:'yes'}).value === 'yes';
+  const scorpSal   = parseFloat((document.getElementById('ann-scorp-salary') || {value:'60000'}).value) || 60000;
+
+  // Show/hide S-Corp salary field
+  const scorpFields = document.getElementById('ann-scorp-fields');
+  if (scorpFields) scorpFields.style.display = structure === 'scorp' ? 'block' : 'none';
+
+  if (businessProfit <= 0) {
+    document.getElementById('ann-tax-stats').innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--muted);font-size:13px">No profit — no estimated tax owed. Consider consulting a CPA about loss carryforward strategies.</div>';
+    document.getElementById('ann-tax-breakdown').innerHTML = '';
+    document.getElementById('ann-tax-quarterly').innerHTML = '';
+    document.getElementById('ann-tax-notes').innerHTML = '';
+    return;
+  }
+
+  // ── 2024 FEDERAL BRACKETS ─────────────────────────────────────────────
+  const brackets = {
+    single: [[11600,0.10],[44725,0.12],[95375,0.22],[201050,0.24],[383900,0.32],[487450,0.35],[Infinity,0.37]],
+    mfj:    [[23200,0.10],[89450,0.12],[190750,0.22],[364200,0.24],[462500,0.32],[693750,0.35],[Infinity,0.37]],
+    hoh:    [[16550,0.10],[59850,0.12],[95350,0.22],[197300,0.24],[383900,0.32],[487450,0.35],[Infinity,0.37]],
+  };
+  const stdDeduction = { single: 14600, mfj: 29200, hoh: 21900 };
+
+  function federalTax(taxableIncome, filingStatus) {
+    const brk = brackets[filingStatus] || brackets.single;
+    let tax = 0, prev = 0;
+    for (const [limit, rate] of brk) {
+      if (taxableIncome <= prev) break;
+      tax += (Math.min(taxableIncome, limit) - prev) * rate;
+      prev = limit;
+    }
+    return Math.max(0, tax);
+  }
+
+  function marginalRate(taxableIncome, filingStatus) {
+    const brk = brackets[filingStatus] || brackets.single;
+    let prev = 0;
+    for (const [limit, rate] of brk) {
+      if (taxableIncome <= limit) return rate;
+      prev = limit;
+    }
+    return 0.37;
+  }
+
+  // ── SELF-EMPLOYMENT TAX ───────────────────────────────────────────────
+  let seTax = 0, seBase = 0;
+  const SE_RATE = 0.153;
+  const SE_MULT = 0.9235; // net earnings multiplier
+
+  if (structure === 'sole') {
+    seBase = businessProfit * SE_MULT;
+    seTax  = seBase * SE_RATE;
+  } else if (structure === 'scorp') {
+    // SE tax only on the reasonable salary portion
+    const salaryBase = Math.min(scorpSal, businessProfit);
+    seTax  = salaryBase * SE_RATE;
+    seBase = salaryBase;
+  }
+  // C-Corp: no SE tax at entity level
+
+  // SE tax deduction (half of SE tax deductible as above-the-line)
+  const seDeduction = seTax / 2;
+
+  // ── FEDERAL INCOME TAX ────────────────────────────────────────────────
+  let taxableIncome = 0, qbiDeduction = 0, federalIncomeTax = 0;
+
+  if (structure === 'ccorp') {
+    federalIncomeTax = businessProfit * 0.21;
+    taxableIncome = businessProfit;
+  } else {
+    // Pass-through: business profit flows to personal return
+    const totalIncome = businessProfit + otherInc;
+    const agi = totalIncome - seDeduction;
+    const stdDed = stdDeduction[filing] || stdDeduction.single;
+
+    // QBI deduction: 20% of qualified business income (simplified)
+    qbiDeduction = useQBI ? businessProfit * 0.20 : 0;
+
+    taxableIncome = Math.max(0, agi - stdDed - qbiDeduction);
+
+    // Federal tax on combined income minus tax on other-income-only (incremental approach)
+    const taxOnAll      = federalTax(taxableIncome, filing);
+    const otherAGI      = Math.max(0, otherInc - stdDed);
+    const taxOnOther    = federalTax(otherAGI, filing);
+    federalIncomeTax    = Math.max(0, taxOnAll - taxOnOther);
+  }
+
+  // ── STATE TAX ─────────────────────────────────────────────────────────
+  const stateTax = businessProfit * stateRate;
+
+  // ── TOTALS ────────────────────────────────────────────────────────────
+  const totalTax   = seTax + federalIncomeTax + stateTax;
+  const afterTax   = businessProfit - totalTax;
+  const effectRate = businessProfit > 0 ? (totalTax / businessProfit) : 0;
+  const qtrPayment = totalTax / 4;
+
+  const fmt2 = (n) => '$' + Math.max(0,Math.round(n)).toLocaleString();
+  const pct  = (n)  => (n * 100).toFixed(1) + '%';
+
+  // ── STAT CARDS ────────────────────────────────────────────────────────
+  document.getElementById('ann-tax-stats').innerHTML = [
+    { label:'Total Est. Tax',   value: fmt2(totalTax),      sub: pct(effectRate)+' effective rate',  color:'var(--coral)' },
+    { label:'After-Tax Profit', value: fmt2(afterTax),      sub: 'what you keep',                    color:'var(--green)' },
+    { label:'Quarterly Payment',value: fmt2(qtrPayment),    sub: 'set aside each quarter',           color:'var(--sky)' },
+    { label:'Monthly Set-Aside',value: fmt2(totalTax/12),   sub: 'save this every month',            color:'var(--amber)' },
+  ].map(s => `<div class="ann-tax-stat">
+    <div class="ann-tax-stat-label">${s.label}</div>
+    <div class="ann-tax-stat-value" style="color:${s.color}">${s.value}</div>
+    <div class="ann-tax-stat-sub">${s.sub}</div>
+  </div>`).join('');
+
+  // ── BREAKDOWN TABLE ───────────────────────────────────────────────────
+  const totalIncome2 = businessProfit + otherInc;
+  const agi2         = totalIncome2 - seDeduction;
+  const stdDed2      = stdDeduction[filing] || stdDeduction.single;
+
+  const rows = structure === 'ccorp' ? [
+    ['Business Profit',             fmt2(businessProfit),   ''],
+    ['Federal Corporate Tax (21%)', fmt2(federalIncomeTax), pct(0.21)],
+    ['State Income Tax',            fmt2(stateTax),         pct(stateRate)],
+    ['Total Tax',                   fmt2(totalTax),         pct(effectRate)],
+  ] : [
+    ['Gross Income (business + other)',  fmt2(totalIncome2),                   ''],
+    ['Less: ½ SE Tax Deduction',        '('+fmt2(seDeduction)+')',             ''],
+    ['= Adjusted Gross Income (AGI)',    fmt2(Math.max(0, agi2)),              ''],
+    ['Less: Standard Deduction',        '('+fmt2(stdDed2)+')',                 ''],
+    useQBI ? ['Less: QBI Deduction (20% of biz profit)', '('+fmt2(qbiDeduction)+')', ''] : null,
+    ['= Federal Taxable Income',        fmt2(taxableIncome),                   ''],
+    ['',                                '',                                    ''],
+    ['Self-Employment Tax (15.3%)',      fmt2(seTax),                          pct(seTax/businessProfit)],
+    ['Federal Income Tax',              fmt2(federalIncomeTax),                pct(federalIncomeTax/businessProfit)],
+    ['State Income Tax',                fmt2(stateTax),                        pct(stateRate)],
+    ['Total Tax',                       fmt2(totalTax),                        pct(effectRate)],
+  ].filter(Boolean);
+
+  document.getElementById('ann-tax-breakdown').innerHTML =
+    '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px">Tax Breakdown</div>' +
+    '<table class="ann-tax-table"><thead><tr><th>Item</th><th style="text-align:right">Amount</th><th style="text-align:right">Rate</th></tr></thead><tbody>' +
+    rows.map((r,i) => {
+      const isTotal = r[0] === 'Total Tax';
+      const isEmpty = r[0] === '';
+      if (isEmpty) return '<tr><td colspan="3" style="padding:4px 10px;border:none"></td></tr>';
+      return `<tr class="${isTotal?'tax-total-row':''}"><td>${r[0]}</td><td style="text-align:right">${r[1]}</td><td style="text-align:right;color:var(--muted)">${r[2]}</td></tr>`;
+    }).join('') +
+    '</tbody></table>';
+
+  // ── QUARTERLY SCHEDULE ────────────────────────────────────────────────
+  const qtrDates = [
+    ['Q1', 'Jan 1 – Mar 31', 'Due Apr 15'],
+    ['Q2', 'Apr 1 – May 31', 'Due Jun 17'],
+    ['Q3', 'Jun 1 – Aug 31', 'Due Sep 16'],
+    ['Q4', 'Sep 1 – Dec 31', 'Due Jan 15'],
+  ];
+  document.getElementById('ann-tax-quarterly').innerHTML =
+    '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px">2025 Quarterly Estimated Tax Schedule (IRS Form 1040-ES)</div>' +
+    '<div class="ann-tax-qtr">' +
+    qtrDates.map(([q, period, due]) => `
+      <div class="ann-tax-qtr-item">
+        <div class="ann-tax-qtr-label">${q}</div>
+        <div class="ann-tax-qtr-date">${period}</div>
+        <div class="ann-tax-qtr-amount">${fmt2(qtrPayment)}</div>
+        <div class="ann-tax-qtr-date" style="margin-top:4px;font-weight:600;color:var(--coral)">${due}</div>
+      </div>`).join('') +
+    '</div>';
+
+  // ── NOTES ─────────────────────────────────────────────────────────────
+  const structureNote = structure === 'scorp'
+    ? `S-Corp structure: SE tax applies only to the $${scorpSal.toLocaleString()} reasonable salary, not the full profit. Remaining profit passes through as distributions, avoiding SE tax — a significant saving at higher income levels.`
+    : structure === 'ccorp'
+    ? `C-Corp pays a flat 21% federal rate at the entity level. Distributing profits to yourself as dividends creates a second layer of tax. Most small car wash owners use pass-through structures to avoid this.`
+    : `Sole proprietor / single-member LLC: all business profit is subject to both SE tax (15.3% on net earnings) and income tax. The QBI deduction and SE deduction help offset this.`;
+
+  const margRate = structure === 'ccorp' ? 0.21 : marginalRate(taxableIncome, filing);
+  document.getElementById('ann-tax-notes').innerHTML =
+    `<strong>Structure note:</strong> ${structureNote}<br><br>` +
+    `<strong>Your marginal federal rate</strong> on the next dollar of profit: <strong>${pct(margRate)}</strong>. ` +
+    `Every $10,000 in additional revenue costs ~${fmt2(10000 * (margRate + stateRate + (structure==='sole'?0.153*0.9235:0)))} in combined tax at the margin.<br><br>` +
+    `<strong>Reminder:</strong> This is an estimate using simplified 2024 brackets. Your actual tax will differ based on deductions, depreciation, Section 179 elections, prior-year losses, and other factors. Work with a CPA — a good one pays for itself at this income level.`;
+}
+
+function pmt(rate, nper, pv) {
+  // Standard amortization payment formula
+  if (rate === 0) return pv / nper;
+  return pv * rate * Math.pow(1 + rate, nper) / (Math.pow(1 + rate, nper) - 1);
+}
+
+function calcAcquisition(annualProfit, annualRev) {
+  const multiple    = parseFloat((document.getElementById('acq-multiple') || {value:'4'}).value) || 4;
+  const addBacks    = parseFloat((document.getElementById('acq-addbacks') || {value:'0'}).value) || 0;
+  const sellerPct   = (parseFloat((document.getElementById('acq-seller-pct') || {value:'40'}).value) || 0) / 100;
+  const sellerRate  = (parseFloat((document.getElementById('acq-seller-rate')|| {value:'5'}).value)  || 5) / 100 / 12;
+  const sellerTerm  = (parseFloat((document.getElementById('acq-seller-term')|| {value:'5'}).value)  || 5) * 12;
+  const sbaPct      = (parseFloat((document.getElementById('acq-sba-pct')    || {value:'50'}).value) || 0) / 100;
+  const sbaRate     = (parseFloat((document.getElementById('acq-sba-rate')   || {value:'7.5'}).value)|| 7.5) / 100 / 12;
+  const sbaTerm     = (parseFloat((document.getElementById('acq-sba-term')   || {value:'10'}).value) || 10) * 12;
+
+  const acqCard = document.getElementById('ann-acq-card');
+
+  // SDE = operating profit + owner add-backs (owner's salary would also be added back if included in costs)
+  const sde = Math.max(0, annualProfit + addBacks);
+  const purchasePrice = sde * multiple;
+
+  // Update display boxes
+  const priceDisplay = document.getElementById('acq-price-display');
+  if (priceDisplay) priceDisplay.innerHTML =
+    `Estimated purchase price: <strong>$${Math.round(purchasePrice).toLocaleString()}</strong> &nbsp;(SDE $${Math.round(sde).toLocaleString()} × ${multiple}×)`;
+
+  // Validate pct split
+  const totalFinanced = sellerPct + sbaPct;
+  const cashPct = Math.max(0, 1 - totalFinanced);
+  const cashDisplay = document.getElementById('acq-cash-display');
+  if (cashDisplay) {
+    const cashAmt = purchasePrice * cashPct;
+    cashDisplay.innerHTML = totalFinanced > 1
+      ? `<span style="color:var(--coral)">⚠ Seller + SBA = ${Math.round(totalFinanced*100)}% — exceeds 100%. Reduce one or both.</span>`
+      : `Cash down payment: <strong>$${Math.round(cashAmt).toLocaleString()}</strong> (${Math.round(cashPct*100)}% of price)`;
+  }
+
+  if (purchasePrice <= 0 || totalFinanced > 1) {
+    if (acqCard) acqCard.style.display = 'none';
+    return { annualDebtService: 0, sde, purchasePrice };
+  }
+  if (acqCard) acqCard.style.display = 'block';
+
+  // Loan amounts
+  const sellerAmt = purchasePrice * sellerPct;
+  const sbaAmt    = purchasePrice * sbaPct;
+  const cashAmt   = purchasePrice * cashPct;
+
+  // Monthly payments
+  const sellerMonthly = sellerAmt > 0 ? pmt(sellerRate, sellerTerm, sellerAmt) : 0;
+  const sbaMonthly    = sbaAmt    > 0 ? pmt(sbaRate,    sbaTerm,    sbaAmt)    : 0;
+  const totalMonthly  = sellerMonthly + sbaMonthly;
+  const annualDebtService = totalMonthly * 12;
+
+  // Total interest over life of loans
+  const sellerTotalPaid  = sellerMonthly * sellerTerm;
+  const sbaTotalPaid     = sbaMonthly    * sbaTerm;
+  const sellerInterest   = sellerTotalPaid - sellerAmt;
+  const sbaInterest      = sbaTotalPaid   - sbaAmt;
+
+  // DSCR = Net Operating Income / Debt Service
+  const dscr = annualDebtService > 0 ? annualProfit / annualDebtService : Infinity;
+  const dscrOk = dscr >= 1.25; // SBA typically requires ≥1.25
+
+  const f = (n) => '$' + Math.max(0, Math.round(n)).toLocaleString();
+
+  // Stat grid
+  document.getElementById('ann-acq-grid').innerHTML = [
+    { label: 'Purchase Price',     value: f(purchasePrice),          sub: `${multiple}× SDE`,                 c: 'purple-v' },
+    { label: 'Cash Down',          value: f(cashAmt),                 sub: `${Math.round(cashPct*100)}% down`, c: '' },
+    { label: 'Monthly Debt Svc',   value: f(totalMonthly),            sub: 'all loans combined',               c: 'amber-v' },
+    { label: 'Annual Debt Svc',    value: f(annualDebtService),       sub: 'total/yr',                         c: 'amber-v' },
+    { label: 'DSCR',               value: isFinite(dscr) ? dscr.toFixed(2)+'×' : '∞',
+                                    sub: dscrOk ? '✓ SBA threshold met (≥1.25×)' : '⚠ Below SBA min (1.25×)',
+                                    c: dscrOk ? 'positive' : 'negative' },
+    { label: 'Total Interest Paid',value: f(sellerInterest + sbaInterest), sub: 'over life of both loans',    c: '' },
+  ].map(s => `<div class="ann-acq-stat">
+    <div class="ann-acq-stat-label">${s.label}</div>
+    <div class="ann-acq-stat-value" style="${s.c==='positive'?'color:var(--green)':s.c==='negative'?'color:var(--coral)':''}">${s.value}</div>
+    <div class="ann-acq-stat-sub">${s.sub}</div>
+  </div>`).join('');
+
+  // Waterfall table
+  document.getElementById('ann-acq-waterfall-wrap').innerHTML =
+    '<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px;margin-top:4px">Loan Structure</div>' +
+    '<table class="ann-acq-waterfall">' +
+    '<thead><tr><th>Tranche</th><th style="text-align:right">Amount</th><th style="text-align:right">% of Price</th><th style="text-align:right">Rate</th><th style="text-align:right">Term</th><th style="text-align:right">Monthly Pmt</th><th style="text-align:right">Total Interest</th></tr></thead>' +
+    '<tbody>' +
+    (sellerAmt > 0 ? `<tr><td>Seller Note</td><td style="text-align:right">${f(sellerAmt)}</td><td style="text-align:right">${Math.round(sellerPct*100)}%</td><td style="text-align:right">${((sellerRate*12)*100).toFixed(2)}%</td><td style="text-align:right">${sellerTerm/12} yr</td><td style="text-align:right">${f(sellerMonthly)}</td><td style="text-align:right">${f(sellerInterest)}</td></tr>` : '') +
+    (sbaAmt    > 0 ? `<tr><td>SBA 7(a)</td><td style="text-align:right">${f(sbaAmt)}</td><td style="text-align:right">${Math.round(sbaPct*100)}%</td><td style="text-align:right">${((sbaRate*12)*100).toFixed(2)}%</td><td style="text-align:right">${sbaTerm/12} yr</td><td style="text-align:right">${f(sbaMonthly)}</td><td style="text-align:right">${f(sbaInterest)}</td></tr>` : '') +
+    `<tr><td>Cash (Equity)</td><td style="text-align:right">${f(cashAmt)}</td><td style="text-align:right">${Math.round(cashPct*100)}%</td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td></tr>` +
+    `<tr class="total-row"><td>Total</td><td style="text-align:right">${f(purchasePrice)}</td><td style="text-align:right">100%</td><td style="text-align:right"></td><td style="text-align:right"></td><td style="text-align:right">${f(totalMonthly)}</td><td style="text-align:right">${f(sellerInterest+sbaInterest)}</td></tr>` +
+    '</tbody></table>';
+
+  // Warning if DSCR low
+  const warnWrap = document.getElementById('ann-acq-warn-wrap');
+  if (!dscrOk && isFinite(dscr)) {
+    warnWrap.innerHTML = `<div class="ann-acq-warn">⚠ <strong>DSCR of ${dscr.toFixed(2)}× is below the SBA minimum of 1.25×.</strong> This means the business does not generate enough cash flow to comfortably service the debt. SBA lenders will typically decline or require a larger down payment. To fix: increase revenue, reduce costs, negotiate a lower purchase price, extend loan terms, or put more cash down.</div>`;
+  } else {
+    warnWrap.innerHTML = '';
+  }
+
+  return { annualDebtService, sde, purchasePrice };
+}
+
+function autoStaffAndRender() {
+  // When bays change, auto-update the staffing override inputs to recommended values
+  const baysEl2 = document.getElementById('ann-bays');
+  const bays = (baysEl2 && baysEl2.value !== '') ? Math.max(1, parseFloat(baysEl2.value) || 1) : 4;
+  const rec = Math.max(1, Math.ceil(bays / 2));
+  const attInput = document.getElementById('ann-att-per-shift');
+  const leadInput = document.getElementById('ann-lead-per-shift');
+  if (attInput) attInput.value = 0;
+  if (leadInput) leadInput.value = 1;
+  renderAnnual();
+}
+
+function renderAnnual() {
+  // Store computed values for health tab to read
+  if (!window._annComputed) window._annComputed = {};
+  const peakRev   = annV('ann-peak-rev');
+  const ticket    = annV('ann-ticket');
+  const baysEl = document.getElementById('ann-bays');
+  const bays = (baysEl && baysEl.value !== '') ? Math.max(1, parseFloat(baysEl.value) || 1) : 4;
+  const wageAtt   = annV('ann-wage-att');
+  const wageMgr   = annV('ann-wage-mgr');
+  const rent      = annV('ann-rent');
+  const insurance = annV('ann-insurance');
+  const baseUtil  = annV('ann-utilities');
+  const supplies  = annV('ann-supplies');
+  const maintAnn  = annV('ann-maint');
+
+  // ── LABOR MODEL ───────────────────────────────────────────────────────
+  // 12 hrs/day staffed (e.g. 7am–7pm). Self-serve bays run 24/7 but labor only 12 hrs.
+  // 2 shifts of 6 hrs — model as 2 shifts/day for scheduling.
+  const shiftsPerDay    = 2;      // 6-hr shifts (12 hrs / 2)
+  const hrsPerShift     = 6;
+  const fteCoverFactor  = 1.45;   // PTO, sick, no-show buffer
+
+  // Read override inputs (user-adjustable, auto-set from bays)
+  const attEl = document.getElementById('ann-att-per-shift');
+  const leadEl = document.getElementById('ann-lead-per-shift');
+  const gmEl = document.getElementById('ann-gm-salary');
+  const attSlotsPerShift  = (attEl  && attEl.value  !== '') ? Math.max(0, parseFloat(attEl.value))  : 0;
+  const leadSlotsPerShift = (leadEl && leadEl.value !== '') ? Math.max(0, parseFloat(leadEl.value)) : 1;
+  const gmSalary          = (gmEl   && gmEl.value   !== '') ? Math.max(0, parseFloat(gmEl.value))   : 100000;
+
+  // Recommended values (shown in hints, used to highlight if overridden)
+  const recAtt  = Math.max(1, Math.ceil(bays / 2));
+  const recLead = 1;
+
+  // FTE needed to reliably fill each slot across 7 days with buffer
+  const attFTE  = Math.ceil(attSlotsPerShift  * shiftsPerDay * fteCoverFactor);
+  const leadFTE = Math.ceil(leadSlotsPerShift * shiftsPerDay * fteCoverFactor);
+  const mgrsCount = 1;
+
+  const weeksPerMonth   = 52 / 12;
+  const attWeeklyHrs    = attSlotsPerShift  * shiftsPerDay * hrsPerShift;
+  const leadWeeklyHrs   = leadSlotsPerShift * shiftsPerDay * hrsPerShift;
+
+  const monthlyAttCost  = attWeeklyHrs  * wageAtt * weeksPerMonth;
+  const monthlyLeadCost = leadWeeklyHrs * wageMgr  * weeksPerMonth;
+  const monthlyMgrCost  = gmSalary / 12;
+
+  const baseLaborMonthly = monthlyAttCost + monthlyLeadCost + monthlyMgrCost;
+
+  // Render labor card
+  document.getElementById('ann-labor-bays').textContent = bays;
+  const laborGrid = document.getElementById('ann-labor-grid');
+  laborGrid.innerHTML = [
+    {
+      role: `Attendants (${attSlotsPerShift}/shift)`,
+      count: attFTE + ' FTE',
+      detail: `<strong>${attSlotsPerShift}/shift${attSlotsPerShift !== recAtt ? ' <span style="color:var(--amber)">(overridden — recommended: '+recAtt+')</span>' : ' (recommended for '+bays+' bays)'}</strong>. Keep bays swept between cars, restock soap/token dispensers, handle customer questions, flag equipment issues, and deter vandalism. With ${bays} bays, 1 attendant per 2 bays gives you enough coverage to have one in a bay while the other watches the lot. Total FTE needed: ${attFTE} (includes 1.45× buffer for PTO/sick/turnover).`
+    },
+    {
+      role: 'Shift Lead (1/shift)',
+      count: leadFTE + ' FTE',
+      detail: `<strong>${leadSlotsPerShift}/shift${leadSlotsPerShift !== recLead ? ' <span style="color:var(--amber)">(overridden — recommended: '+recLead+')</span>' : ''}</strong>. The on-site supervisor for the shift. Handles cash reconciliation, responds to machine malfunctions and basic repairs (unclogging nozzles, resetting kiosks), manages attendants, handles upset customers, and is the first call if something breaks. At $${wageMgr}/hr you're compensating a skilled, reliable person — not a minimum-wage fill-in. Total FTE needed: ${leadFTE}.`
+    },
+    {
+      role: 'General Manager',
+      count: '1 salaried',
+      detail: `Salaried at <strong>$${Math.round(gmSalary).toLocaleString()}/yr ($${Math.round(gmSalary/12).toLocaleString()}/mo)</strong>. Handles scheduling, vendor relationships, maintenance coordination, ordering supplies, payroll, and anything requiring owner-level judgment. This keeps you out of daily operations.`
+    },
+    {
+      role: 'Total Employees',
+      count: attFTE + leadFTE + mgrsCount,
+      detail: `${attFTE} hourly attendants + ${leadFTE} shift leads + ${mgrsCount} GM = <strong>${attFTE + leadFTE + mgrsCount} total employees</strong>. The 1.45× FTE buffer means you schedule ${attSlotsPerShift * shiftsPerDay} attendant and ${leadSlotsPerShift * shiftsPerDay} lead slots per day but hire enough to absorb call-outs, PTO, and turnover without scrambling.`
+    },
+    {
+      role: 'Base Monthly Labor',
+      count: annFmt(baseLaborMonthly),
+      detail: 'Wages only, before benefits or payroll tax.'
+    },
+    {
+      role: 'Loaded Monthly Labor',
+      count: annFmt(baseLaborMonthly * 1.25),
+      detail: '+25% for FICA (7.65%), workers comp (~3%), and basic benefits/stipends.'
+    },
+  ].map(i => `<div class="ann-labor-item" style="grid-column:1/-1;display:flex;gap:14px;align-items:flex-start;padding:12px 14px">
+    <div style="flex-shrink:0;min-width:120px">
+      <div class="ann-labor-role">${i.role}</div>
+      <div class="ann-labor-count" style="font-size:20px">${i.count}</div>
+    </div>
+    <div class="ann-labor-detail" style="font-size:12px;line-height:1.7;color:var(--ink2);padding-top:2px">${i.detail}</div>
+  </div>`).join('');
+
+  document.getElementById('ann-labor-notes').innerHTML =
+    `<strong>Why these wages?</strong> At <strong>$${wageAtt}/hr for attendants</strong> and <strong>$${wageMgr}/hr for leads</strong> you're paying ~40–50% above KC's going rate for this type of work (~$14–16/hr). ` +
+    `That gap matters: reliable self-serve attendants are hard to find and high turnover is expensive. Paying competitively means people show up, stay, and actually give a damn about the property. ` +
+    `Bays run 24/7 unattended — so overnight reliability of your equipment matters more than overnight staffing. ` +
+    `Total staffed payroll (loaded): <strong>${annFmt(baseLaborMonthly * 1.25)}/month</strong>.` +
+    `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">` +
+    `<div style="font-weight:700;font-size:12px;color:var(--ink);margin-bottom:8px">Ways to reduce labor cost:</div>` +
+    `<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink2);line-height:1.6">` +
+    `<div style="padding:8px 10px;background:var(--paper);border-radius:6px;border:1px solid var(--border)"><strong>Drop to 1 attendant for 4 bays</strong> — risky during busy shifts but workable in slow seasons. Saves ~${annFmt(Math.max(0,(attSlotsPerShift-1))*shiftsPerDay*hrsPerShift*wageAtt*weeksPerMonth)}/mo on attendant wages.</div>` +
+    `<div style="padding:8px 10px;background:var(--paper);border-radius:6px;border:1px solid var(--border)"><strong>Cross-train lead to cover attendant duties</strong> — eliminates the need for a second attendant on slower shifts. Requires a capable, motivated lead at the right pay grade.</div>` +
+    `<div style="padding:8px 10px;background:var(--paper);border-radius:6px;border:1px solid var(--border)"><strong>Install a remote monitoring system</strong> (e.g. <a href="https://www.washcard.com" target="_blank" rel="noopener" style="color:var(--sky)">WashCard</a> or <a href="https://www.icontrol.net" target="_blank" rel="noopener" style="color:var(--sky)">iControl</a>) — cameras and sensor alerts let a lead manage from elsewhere for part of their shift, potentially reducing on-site hours.</div>` +
+    `<div style="padding:8px 10px;background:var(--paper);border-radius:6px;border:1px solid var(--border)"><strong>Reduce staffed hours in winter</strong> — January/February volume is 38–44% of peak. Consider cutting to 8 staffed hours/day Nov–Feb. Saves ~${annFmt(baseLaborMonthly*0.20)}/mo in slowest months.</div>` +
+    `<div style="padding:8px 10px;background:var(--paper);border-radius:6px;border:1px solid var(--border)"><strong>GM at part-time until stabilized</strong> — If you (the owner) can absorb GM duties short-term, delay the full salary hire. Saves ~${annFmt(gmSalary/12)}/mo but adds owner time commitment.</div>` +
+    `</div></div>`;
+
+  const loadedLaborFactor = 1.25;
+  const fixedMonthly = rent + insurance + supplies;
+
+  // ── MONTHLY CALCULATIONS ─────────────────────────────────────────────
+  const months = [];
+  let annualRev = 0, annualCost = 0, annualProfit = 0;
+  let breakEvenMonth = null, cumProfit = 0;
+
+  for (let i = 0; i < 12; i++) {
+    const rev       = peakRev * KC_SEASONAL[i];
+    const maint     = maintAnn * MAINT_DIST[i];
+    const utilities = baseUtil * UTIL_SCALAR[i];
+    const labor     = baseLaborMonthly * loadedLaborFactor * (0.9 + 0.15 * KC_SEASONAL[i]); // slight labor flex
+    const fixed     = fixedMonthly + utilities;
+    const totalCost = labor + maint + fixed;
+    const profit    = rev - totalCost;
+    const margin    = rev > 0 ? (profit / rev * 100) : 0;
+    const cars      = ticket > 0 ? Math.round(rev / ticket) : 0;
+
+    months.push({ rev, labor, maint, utilities, fixed: fixed - utilities + utilities, totalCost, profit, margin, cars });
+    annualRev    += rev;
+    annualCost   += totalCost;
+    annualProfit += profit;
+    cumProfit    += profit;
+    if (breakEvenMonth === null && cumProfit > 0) breakEvenMonth = MONTHS[i];
+  }
+  const annualMargin = annualRev > 0 ? (annualProfit / annualRev * 100) : 0;
+  // Store for health tab
+  const _lc = months.reduce((s,m)=>s+m.labor,0);
+  window._annComputed = {
+    rev:    annualRev,
+    profit: annualProfit,
+    cost:   annualCost,
+    labor:  _lc,
+    maint:  maintAnn,
+    fixed:  annualCost - _lc - maintAnn,
+  };
+
+  // ── SUMMARY STATS ────────────────────────────────────────────────────
+  document.getElementById('ann-s-rev').textContent    = annFmt(annualRev);
+  document.getElementById('ann-s-cost').textContent   = annFmt(annualCost);
+  document.getElementById('ann-s-profit').textContent = annFmt(annualProfit);
+  document.getElementById('ann-s-profit').style.color = annualProfit >= 0 ? 'var(--green)' : 'var(--coral)';
+  document.getElementById('ann-s-margin').textContent = annualMargin.toFixed(1) + '% margin';
+  document.getElementById('ann-s-break').textContent  = breakEvenMonth || (annualProfit > 0 ? 'Jan' : 'None');
+
+  // ── TABLE ────────────────────────────────────────────────────────────
+  const tbody = document.getElementById('ann-table-body');
+  tbody.innerHTML = months.map((m, i) => `
+    <tr>
+      <td>${MONTHS[i]}</td>
+      <td>${annFmt(m.rev)}</td>
+      <td>${annFmt(m.labor)}</td>
+      <td>${annFmt(m.maint)}</td>
+      <td>${annFmt(m.fixed)}</td>
+      <td>${annFmt(m.totalCost)}</td>
+      <td class="${m.profit >= 0 ? 'profit-pos' : 'profit-neg'}">${annFmt(m.profit)}</td>
+      <td class="${m.profit >= 0 ? 'profit-pos' : 'profit-neg'}">${m.margin.toFixed(1)}%</td>
+    </tr>`).join('');
+
+  document.getElementById('ann-table-foot').innerHTML =
+    `<td>ANNUAL</td>
+     <td>${annFmt(annualRev)}</td>
+     <td>${annFmt(months.reduce((s,m)=>s+m.labor,0))}</td>
+     <td>${annFmt(maintAnn)}</td>
+     <td>${annFmt(months.reduce((s,m)=>s+m.fixed,0))}</td>
+     <td>${annFmt(annualCost)}</td>
+     <td class="${annualProfit>=0?'profit-pos':'profit-neg'}">${annFmt(annualProfit)}</td>
+     <td class="${annualProfit>=0?'profit-pos':'profit-neg'}">${annualMargin.toFixed(1)}%</td>`;
+
+  // ── ASSUMPTIONS ──────────────────────────────────────────────────────
+  const cars = ticket > 0 ? Math.round(annualRev / ticket) : 0;
+  document.getElementById('ann-assumptions-body').innerHTML = [
+    `<strong>KC Seasonal Index:</strong> July = peak (1.0). January = 38% of peak. Based on KC avg monthly car wash demand — harsh winters (avg 6" snow, wind chill to -20F) suppress January–February volume by ~60% vs summer.`,
+    `<strong>12-Hour Staffing:</strong> 2 shifts/day × 7 days (e.g. 7am–7pm). Base of ${attSlotsPerShift} attendant(s) + 1 lead per shift. A 1.45× FTE buffer ensures coverage through PTO, sick days, and turnover. Bays remain self-serve 24/7 — no overnight labor cost.`,
+    `<strong>Labor loaded at 1.25×:</strong> Covers FICA/payroll tax (~7.65%), workers comp (~3%), basic health stipend, and hiring buffer.`,
+    `<strong>Maintenance (20-yr facility):</strong> ${annFmt(maintAnn)}/yr budgeted. Spring (Mar–Apr) takes ~26% of annual budget to address freeze damage. Items expected at this age: pump motor rebuilds, bay control panel replacements, plumbing joints, hydraulic lift service, and structural patching.`,
+    `<strong>Utilities scale seasonally:</strong> Summer peak is ~135% of base (high water/electric + AC). Winter is ~88% (heating, low volume but pipes remain heated 24/7 even when unstaffed).`,
+    `<strong>Projected ${cars.toLocaleString()} cars/year</strong> at $${ticket} avg ticket = ${annFmt(annualRev)} revenue.`,
+    `<strong>Not included:</strong> Debt service / loan payments, depreciation, owner's draw, credit card processing fees, capital expenditures. Add these to get true net to owner.`,
+  ].map(a => `<div class="ann-assumption-item">${a}</div>`).join('');
+
+  // ── ACQUISITION & DEBT SERVICE ───────────────────────────────────────
+  const acqResult = calcAcquisition(annualProfit, annualRev);
+  const annualDebtService = acqResult.annualDebtService;
+  if (window._annComputed) {
+    window._annComputed.debt  = annualDebtService;
+    window._annComputed.price = acqResult.purchasePrice;
+    window._annComputed.cash  = acqResult.purchasePrice * Math.max(0, 1 - (
+      (parseFloat((document.getElementById('acq-seller-pct')||{value:'40'}).value)||40)/100 +
+      (parseFloat((document.getElementById('acq-sba-pct')   ||{value:'50'}).value)||50)/100
+    ));
+  }
+  const sde = acqResult.sde;
+  const purchasePrice = acqResult.purchasePrice;
+
+  // ── TAX ANALYSIS ─────────────────────────────────────────────────────
+  const profitAfterDebt = annualProfit - annualDebtService;
+  calcTax(profitAfterDebt > 0 ? profitAfterDebt : annualProfit); // tax on what you actually keep
+  // Re-derive after-tax take-home for hero card (simplified)
+  const taxEst = (() => {
+    if (profitAfterDebt <= 0) return 0;
+    const structure = (document.getElementById('ann-tax-structure')||{value:'sole'}).value;
+    const stateRate = (parseFloat((document.getElementById('ann-tax-state')||{value:'5.7'}).value)||0)/100;
+    // rough effective rate based on structure
+    const effRate = structure === 'ccorp' ? 0.21 : structure === 'scorp' ? 0.28 : 0.32;
+    return profitAfterDebt * effRate;
+  })();
+  const ownerTakeHome = Math.max(0, profitAfterDebt - taxEst);
+
+  // ── HERO CARD ─────────────────────────────────────────────────────────
+  const heroStats = [
+    { label: 'Annual Revenue',           value: annFmt(annualRev),          sub: 'KC seasonal-adjusted',            cls: 'positive' },
+    { label: 'SDE',                       value: annFmt(sde),                sub: "Seller's Discretionary Earnings", cls: 'sky-v' },
+  ];
+  document.getElementById('ann-hero-grid').innerHTML = [
+    { label: 'Annual Revenue',        value: annFmt(annualRev),        sub: 'KC seasonal-adjusted',                       cls: 'positive' },
+    { label: 'SDE',                   value: annFmt(sde),              sub: 'profit + owner add-backs',                   cls: 'sky-v' },
+    { label: 'Annual Debt Service',   value: annFmt(annualDebtService),sub: annualDebtService > 0 ? 'seller note + SBA' : 'no financing modeled', cls: annualDebtService > 0 ? 'amber-v' : 'white-v' },
+    { label: 'Owner Take-Home (est.)',value: annFmt(ownerTakeHome),    sub: 'after debt + est. taxes',                    cls: ownerTakeHome > 0 ? 'positive' : 'negative' },
+  ].map(s => `<div class="ann-hero-stat ${s.cls}">
+    <div class="ann-hero-stat-label">${s.label}</div>
+    <div class="ann-hero-stat-value">${s.value}</div>
+    <div class="ann-hero-stat-sub">${s.sub}</div>
+  </div>`).join('');
+
+  // Verdict line
+  const dscr = annualDebtService > 0 ? annualProfit / annualDebtService : null;
+  const dscrNote = dscr !== null
+    ? (dscr >= 1.5 ? `DSCR of ${dscr.toFixed(2)}× — strong coverage, lender-ready.`
+      : dscr >= 1.25 ? `DSCR of ${dscr.toFixed(2)}× — meets SBA minimum, but tight.`
+      : `DSCR of ${dscr.toFixed(2)}× — <span style="color:#fca5a5">below SBA threshold of 1.25×. Consider a larger down payment or lower purchase price.</span>`)
+    : 'No debt modeled — all profit flows to owner.';
+  const revenueNote = annualRev >= 300000 ? 'Revenue is strong for a KC-area self-serve.' : annualRev >= 180000 ? 'Revenue is moderate — good foundation.' : 'Revenue is below typical KC self-serve benchmarks.';
+  document.getElementById('ann-hero-verdict').innerHTML =
+    `${revenueNote} &nbsp;|&nbsp; ${dscrNote} &nbsp;|&nbsp; Est. monthly owner take-home: <strong>${annFmt(ownerTakeHome/12)}</strong>.`;
+
+  // ── SYNC HEALTH TAB ───────────────────────────────────────────────────
+  try { renderHealth(); } catch(e) {}
+
+  // ── CHART ────────────────────────────────────────────────────────────
+  try { requestAnimationFrame(() => { try { drawAnnualChart(months); } catch(e) { console.warn('Chart error:', e); } }); } catch(e) {}
+}
+
+function drawAnnualChart(months) {
+  const canvas = document.getElementById('ann-canvas');
+  if (!canvas) return;
+  const container = canvas.parentElement;
+  canvas.width  = container.offsetWidth || 600;
+  canvas.height = 300;
+  const ctx = canvas.getContext('2d');
+
+  const revs    = months.map(m => m.rev);
+  const costs   = months.map(m => m.totalCost);
+  const profits = months.map(m => m.profit);
+
+  const allVals = [...revs, ...costs, ...profits];
+  const minVal  = Math.min(...allVals);
+  const maxVal  = Math.max(...allVals);
+  const pad     = { top: 20, right: 20, bottom: 40, left: 70 };
+  const W = canvas.width  - pad.left - pad.right;
+  const H = canvas.height - pad.top  - pad.bottom;
+  const range = maxVal - minVal || 1;
+
+  // helpers
+  const xPos = i => pad.left + (i / 11) * W;
+  const yPos = v => pad.top  + H - ((v - minVal) / range) * H;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Get CSS vars
+  const style    = getComputedStyle(document.documentElement);
+  const green    = style.getPropertyValue('--green').trim()  || '#4a9e6b';
+  const coral    = style.getPropertyValue('--coral').trim()  || '#e8622a';
+  const sky      = style.getPropertyValue('--sky').trim()    || '#3b9eda';
+  const muted    = style.getPropertyValue('--muted').trim()  || '#9a8f7f';
+  const border   = style.getPropertyValue('--border').trim() || '#e0d8cc';
+
+  // Zero line if profits go negative
+  if (minVal < 0) {
+    const z = yPos(0);
+    ctx.beginPath(); ctx.setLineDash([4,4]);
+    ctx.strokeStyle = border; ctx.lineWidth = 1;
+    ctx.moveTo(pad.left, z); ctx.lineTo(pad.left + W, z);
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = muted; ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillText('$0', pad.left - 28, z + 4);
+  }
+
+  // Grid lines (4)
+  ctx.strokeStyle = border; ctx.lineWidth = 0.5;
+  ctx.font = '10px DM Sans, sans-serif'; ctx.fillStyle = muted; ctx.textAlign = 'right';
+  for (let g = 0; g <= 4; g++) {
+    const val = minVal + (range * g / 4);
+    const y   = yPos(val);
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + W, y); ctx.stroke();
+    ctx.fillText('$' + (Math.round(val / 1000)) + 'k', pad.left - 6, y + 4);
+  }
+
+  // Draw a line
+  function drawLine(data, color, lineW, dashed) {
+    ctx.beginPath();
+    ctx.strokeStyle = color; ctx.lineWidth = lineW;
+    if (dashed) ctx.setLineDash([5,4]); else ctx.setLineDash([]);
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    data.forEach((v, i) => i === 0 ? ctx.moveTo(xPos(i), yPos(v)) : ctx.lineTo(xPos(i), yPos(v)));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Fill area under profit line
+  ctx.beginPath();
+  profits.forEach((v, i) => i === 0 ? ctx.moveTo(xPos(i), yPos(v)) : ctx.lineTo(xPos(i), yPos(v)));
+  ctx.lineTo(xPos(11), yPos(Math.max(0, minVal)));
+  ctx.lineTo(xPos(0),  yPos(Math.max(0, minVal)));
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(59,158,218,0.08)';
+  ctx.fill();
+
+  drawLine(revs,    green, 2.5, false);
+  drawLine(costs,   coral, 2.5, false);
+  drawLine(profits, sky,   2,   true);
+
+  // Dots + month labels
+  ctx.textAlign = 'center'; ctx.font = '11px DM Sans, sans-serif'; ctx.fillStyle = muted;
+  MONTHS.forEach((label, i) => {
+    ctx.fillText(label, xPos(i), canvas.height - 8);
+    [[revs, green],[costs, coral],[profits, sky]].forEach(([data, color]) => {
+      ctx.beginPath();
+      ctx.arc(xPos(i), yPos(data[i]), 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = color; ctx.fill();
+    });
+  });
+}
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('tab-annual').classList.contains('active')) renderAnnual();
+});
+
+document.getElementById('entry-date').value = todayStr();
+document.getElementById('entry-revenue').addEventListener('input', updateAvgTicket);
+document.getElementById('entry-units').addEventListener('input', updateAvgTicket);
+const _s = getSettings();
+
+// Run annual analysis silently on load so _annComputed is populated
+// before the user opens the Business Health tab
+renderAnnual();
+if (_s.bizName) { document.getElementById('biz-name').value = _s.bizName; document.title = _s.bizName+' — Daily Profit Pulse'; }
+addExpenseRow('Cleaning supplies','');
+addExpenseRow('Electricity / Water','');
+
+// ══════════════════════════════════════════════════════════
+//  BUSINESS HEALTH TAB
+// ══════════════════════════════════════════════════════════
+
+function renderHealth() {
+  // Pull computed values from Annual Analysis (populated by renderAnnual)
+  const _ac = window._annComputed || {};
+
+  function hv(id, fallback) {
+    const el = document.getElementById(id);
+    if (el && el.value !== '') return parseFloat(el.value) || 0;
+    return fallback || 0;
+  }
+
+  const rev    = hv('h-rev',    _ac.rev);
+  const profit = hv('h-profit', _ac.profit);
+  const labor  = hv('h-labor',  _ac.labor);
+  const maint  = hv('h-maint',  _ac.maint);
+  const fixed  = hv('h-fixed',  _ac.fixed);
+  const debt   = hv('h-debt',   _ac.debt);
+  const price  = hv('h-price',  _ac.price);
+  const cash   = hv('h-cash',   _ac.cash);
+
+  // Auto-fill the input placeholders so users see where numbers come from
+  function autofill(id, val) {
+    const el = document.getElementById(id);
+    if (el && el.value === '' && val > 0) {
+      el.placeholder = '$' + Math.round(val).toLocaleString() + ' (from Annual Analysis)';
+    }
+  }
+  autofill('h-rev',    rev);
+  autofill('h-profit', profit);
+  autofill('h-labor',  labor);
+  autofill('h-maint',  maint);
+  autofill('h-fixed',  fixed);
+  autofill('h-debt',   debt);
+  autofill('h-price',  price);
+  autofill('h-cash',   cash);
+
+  const hasData = rev > 0;
+  const pct = (n) => isFinite(n) ? (n*100).toFixed(1)+'%' : '—';
+  const fmt = (n) => '$'+Math.round(Math.abs(n)).toLocaleString();
+  const fmtPct = (n) => isFinite(n)&&!isNaN(n) ? (n*100).toFixed(1)+'%' : '—';
+
+  // ── CALCULATED METRICS ────────────────────────────────────────────────
+  const directCosts  = labor + maint;                            // variable/direct costs
+  const grossProfit  = rev - directCosts;
+  const grossMargin  = rev > 0 ? grossProfit / rev : null;       // should be 60–75% self-serve
+  const netMargin    = rev > 0 ? profit / rev : null;            // 40–55% great self-serve
+  const laborPct     = rev > 0 ? labor / rev : null;             // 15–25% ideal
+  const maintPct     = rev > 0 ? maint / rev : null;             // 8–12% normal 20yr facility
+  const dscr         = debt > 0 ? profit / debt : null;          // ≥1.25 SBA min, ≥1.5 comfortable
+  const fixedCov     = fixed > 0 ? rev / fixed : null;           // how many × revenue covers fixed costs
+  const breakevenRev = profit !== null ? (rev - profit) : null;  // costs = rev - profit
+  const breakevenPct = rev > 0 && breakevenRev !== null ? breakevenRev / rev : null;
+  const roc          = cash > 0 ? profit / cash : null;          // return on cash invested
+  const priceMultiple = price > 0 && profit > 0 ? price / profit : null;
+
+  // ── SCORE SYSTEM ─────────────────────────────────────────────────────
+  // Each metric scored 0–100, weighted, averaged
+  function score(val, ranges) {
+    // ranges: [{max, pts}] sorted descending
+    if (val === null || !isFinite(val) || isNaN(val)) return null;
+    for (const {min, max, pts} of ranges) {
+      if ((min===undefined||val>=min) && (max===undefined||val<max)) return pts;
+    }
+    return 0;
+  }
+
+  const scores = [
+    { label:'Gross Margin',   weight:20, val: score(grossMargin, [{min:0.68,pts:100},{min:0.60,pts:80},{min:0.50,pts:55},{min:0,pts:30}]) },
+    { label:'Net Margin',     weight:25, val: score(netMargin,   [{min:0.45,pts:100},{min:0.35,pts:80},{min:0.20,pts:55},{min:0.10,pts:30},{min:0,pts:10}]) },
+    { label:'Labor %',        weight:15, val: score(laborPct,    [{min:0,max:0.20,pts:100},{min:0.20,max:0.25,pts:80},{min:0.25,max:0.30,pts:55},{min:0.30,pts:25}]) },
+    { label:'Maint %',        weight:10, val: score(maintPct,    [{min:0.08,max:0.13,pts:100},{min:0.05,max:0.08,pts:70},{min:0.13,max:0.18,pts:60},{min:0,max:0.05,pts:40},{min:0.18,pts:20}]) },
+    { label:'DSCR',           weight:20, val: debt>0 ? score(dscr,[{min:1.5,pts:100},{min:1.25,pts:70},{min:1.0,pts:35},{min:0,pts:0}]) : 100 },
+    { label:'Fixed Coverage', weight:10, val: score(fixedCov,   [{min:2.5,pts:100},{min:2.0,pts:80},{min:1.5,pts:55},{min:1.0,pts:25},{min:0,pts:0}]) },
+  ];
+
+  const validScores = scores.filter(s => s.val !== null);
+  const totalWeight = validScores.reduce((s,x)=>s+x.weight,0);
+  const weightedSum = validScores.reduce((s,x)=>s+(x.val*x.weight),0);
+  const overallScore = totalWeight > 0 ? Math.round(weightedSum / totalWeight) : null;
+
+  // Score circle color
+  const scoreColor = overallScore === null ? 'rgba(255,255,255,0.3)' :
+    overallScore >= 80 ? '#6ee7b7' : overallScore >= 60 ? '#fde68a' : overallScore >= 40 ? '#fca5a5' : '#f87171';
+
+  const scoreCircle = document.getElementById('health-score-circle');
+  if (scoreCircle) { scoreCircle.style.borderColor = scoreColor; }
+  const scoreNum = document.getElementById('health-score-num');
+  if (scoreNum) { scoreNum.textContent = overallScore !== null ? overallScore : '—'; scoreNum.style.color = scoreColor; }
+
+  // Score bars
+  const scoreBars = document.getElementById('health-score-bars');
+  if (scoreBars) {
+    scoreBars.innerHTML = scores.map(s => {
+      const v = s.val !== null ? s.val : 0;
+      const barColor = v>=80?'#6ee7b7':v>=60?'#fde68a':'#fca5a5';
+      return `<div class="health-score-bar-row">
+        <div class="health-score-bar-label">${s.label}</div>
+        <div class="health-score-bar-track"><div class="health-score-bar-fill" style="width:${v}%;background:${barColor}"></div></div>
+        <div class="health-score-bar-val" style="color:${barColor}">${s.val!==null?s.val:'—'}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── METRIC CARD BUILDER ───────────────────────────────────────────────
+  function badge(label, cls) {
+    return `<span class="health-metric-badge badge-${cls}">${label}</span>`;
+  }
+  function barHtml(val, zones, unit='%', scale=100) {
+    // zones: [{label, min, max, color, text}]
+    const pctPos = val !== null ? Math.min(99, Math.max(1, (val * scale))) : 0;
+    const zoneHtml = zones.map(z =>
+      `<span style="color:${z.color||'var(--muted)'}">${z.label}</span>`
+    ).join('<span style="color:var(--border)"> | </span>');
+    const gradient = 'linear-gradient(to right, var(--red-l) 0%, var(--amber-l) 40%, var(--green-l) 70%, var(--sky-l) 100%)';
+    return `
+      <div class="health-benchmark-bar">
+        <div class="health-bar-track" style="background:${gradient}">
+          ${val!==null ? `<div class="health-bar-needle" style="left:${pctPos}%"></div>` : ''}
+        </div>
+        <div class="health-bar-zones">${zoneHtml}</div>
+      </div>`;
+  }
+  function metricCard(id, config) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const {name, value, valueSub, badgeText, badgeCls, formula, bar, ranges, explain, tip} = config;
+    el.innerHTML = `
+      <div class="health-metric-header">
+        <div class="health-metric-name">${name}</div>
+        ${badgeText ? badge(badgeText, badgeCls||'na') : ''}
+      </div>
+      <div class="health-metric-value" style="color:${badgeCls==='great'?'var(--green)':badgeCls==='ok'?'var(--amber)':badgeCls==='danger'?'var(--red)':'var(--ink)'}">${value}</div>
+      <div class="health-metric-sub">${valueSub||''}</div>
+      ${formula ? `<div class="health-formula">${formula}</div>` : ''}
+      ${bar || ''}
+      ${ranges ? `<div class="health-ranges">${ranges.map(r=>`<span class="health-range-pill" style="background:${r.bg};color:${r.color}">${r.label}</span>`).join('')}</div>` : ''}
+      <div class="health-explain">${explain}</div>
+      ${tip ? `<div class="health-tip"><strong>Tip:</strong> ${tip}</div>` : ''}
+    `;
+  }
+
+  // Helper: classify value against thresholds
+  function classify(val, thresholds) {
+    // thresholds: [{max, label, cls}] sorted ascending
+    if (val === null || !isFinite(val)) return {label:'N/A', cls:'na'};
+    for (const t of thresholds) {
+      if (t.min !== undefined && t.max !== undefined && val >= t.min && val < t.max) return {label:t.label, cls:t.cls};
+      if (t.min !== undefined && t.max === undefined && val >= t.min) return {label:t.label, cls:t.cls};
+      if (t.min === undefined && val < t.max) return {label:t.label, cls:t.cls};
+    }
+    return {label:'N/A', cls:'na'};
+  }
+
+  // ── GROSS MARGIN ──────────────────────────────────────────────────────
+  const gmClass = classify(grossMargin, [
+    {max:0.50, label:'Needs Work', cls:'danger'},
+    {min:0.50, max:0.60, label:'Below Target', cls:'watch'},
+    {min:0.60, max:0.68, label:'Acceptable', cls:'ok'},
+    {min:0.68, label:'Great', cls:'great'},
+  ]);
+  metricCard('hm-gross-margin', {
+    name: 'Gross Margin',
+    value: grossMargin !== null ? fmtPct(grossMargin) : '—',
+    valueSub: rev > 0 ? `${fmt(grossProfit)} gross profit on ${fmt(rev)} revenue` : 'Enter revenue and labor/maintenance costs',
+    badgeText: gmClass.label, badgeCls: gmClass.cls,
+    formula: 'Gross Margin = (Revenue − Labor − Maintenance) ÷ Revenue',
+    bar: barHtml(grossMargin, [
+      {label:'<50% danger',color:'var(--red)'},{label:'50–60% low',color:'var(--amber)'},
+      {label:'60–68% ok',color:'var(--ink2)'},{label:'68%+ great',color:'var(--green)'}
+    ]),
+    ranges: [
+      {label:'< 50%  Danger',bg:'var(--red-l)',color:'var(--red)'},
+      {label:'50–60%  Below target',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'60–68%  Acceptable',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'68%+  Excellent',bg:'var(--green-l)',color:'var(--green)'},
+    ],
+    explain: '<strong>What it means:</strong> Of every dollar of revenue, how much is left after paying the people who run the bays and maintaining the equipment. This is your core operational efficiency before rent, insurance, or debt. A healthy self-serve car wash should keep 60–75% because your only meaningful direct costs are labor and maintenance — you have no cost of goods like a retail store does.',
+    tip: 'If your gross margin is below 60%, the first place to look is labor. Are you overstaffed for your volume? Try calculating revenue-per-labor-hour — at $14/ticket and $30/hr lead wage, you need at least 3 cars per staffed hour just to break even on labor.'
+  });
+
+  // ── NET MARGIN ────────────────────────────────────────────────────────
+  const nmClass = classify(netMargin, [
+    {max:0.10, label:'Critical', cls:'danger'},
+    {min:0.10, max:0.25, label:'Tight', cls:'watch'},
+    {min:0.25, max:0.40, label:'Acceptable', cls:'ok'},
+    {min:0.40, label:'Strong', cls:'great'},
+  ]);
+  metricCard('hm-net-margin', {
+    name: 'Net Operating Margin',
+    value: netMargin !== null ? fmtPct(netMargin) : '—',
+    valueSub: profit > 0 ? `${fmt(profit)} operating profit (before debt & tax)` : 'Enter annual profit',
+    badgeText: nmClass.label, badgeCls: nmClass.cls,
+    formula: 'Net Margin = Operating Profit ÷ Revenue',
+    bar: barHtml(netMargin, [
+      {label:'<10%',color:'var(--red)'},{label:'10–25%',color:'var(--amber)'},
+      {label:'25–40%',color:'var(--ink2)'},{label:'40%+',color:'var(--green)'}
+    ]),
+    ranges: [
+      {label:'< 10%  Critical',bg:'var(--red-l)',color:'var(--red)'},
+      {label:'10–25%  Tight',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'25–40%  Healthy',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'40%+  Excellent',bg:'var(--green-l)',color:'var(--green)'},
+    ],
+    explain: '<strong>What it means:</strong> After all operating costs (labor, maintenance, rent, insurance, utilities, supplies), what percent of revenue is profit. This is the most important single number for a self-serve car wash — it tells you if the business model is working. Top-quartile lean self-serve operations in the Midwest run 45–55% net margins. If yours is below 25%, something structural is off: either revenue is too low, a cost category is out of control, or both.',
+    tip: "Net margin below 25% on a self-serve usually means one of three things: (1) peak revenue is below $20k/month, meaning the location doesn't get enough traffic, (2) labor is running above 30% of revenue, meaning the staffing model is too heavy, or (3) maintenance is consistently above 15%, meaning deferred repairs are compounding."
+  });
+
+  // ── LABOR % ───────────────────────────────────────────────────────────
+  const lpClass = classify(laborPct, [
+    {max:0.20, label:'Lean & Efficient', cls:'great'},
+    {min:0.20, max:0.26, label:'On Target', cls:'ok'},
+    {min:0.26, max:0.32, label:'Watch This', cls:'watch'},
+    {min:0.32, label:'Too High', cls:'danger'},
+  ]);
+  metricCard('hm-labor-pct', {
+    name: 'Labor as % of Revenue',
+    value: laborPct !== null ? fmtPct(laborPct) : '—',
+    valueSub: labor > 0 ? `${fmt(labor)}/yr in loaded labor costs` : 'Enter annual labor cost',
+    badgeText: lpClass.label, badgeCls: lpClass.cls,
+    formula: 'Labor % = Total Loaded Labor Cost ÷ Revenue',
+    bar: barHtml(laborPct, [
+      {label:'<20% ideal',color:'var(--green)'},{label:'20–26% ok',color:'var(--amber)'},
+      {label:'26–32% watch',color:'var(--red)'},{label:'32%+ danger',color:'var(--red)'}
+    ]),
+    ranges: [
+      {label:'< 20%  Lean',bg:'var(--green-l)',color:'var(--green)'},
+      {label:'20–26%  Target range',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'26–32%  Elevated',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'32%+  Too high',bg:'var(--red-l)',color:'var(--red)'},
+    ],
+    explain: "<strong>What it means:</strong> Self-serve car washes are labor-light by design — the customer does the work. A well-run 4–8 bay operation should keep labor between 15–25% of revenue. The 1.25× loaded factor (FICA, workers comp, benefits buffer) is already included. If this metric is high, you're either paying for more hours than your volume justifies, or your ticket price is too low relative to your staffing level.",
+    tip: "The fastest way to improve this ratio is raising your ticket price — not cutting staff. Going from $14 to $16 avg ticket on 17,000 cars/year adds $34,000 in revenue with zero increase in labor cost, dropping your labor % by 3–4 points."
+  });
+
+  // ── MAINTENANCE % ─────────────────────────────────────────────────────
+  const mpClass = classify(maintPct, [
+    {max:0.05, label:'Likely Deferring', cls:'watch'},
+    {min:0.05, max:0.08, label:'Below Normal', cls:'ok'},
+    {min:0.08, max:0.14, label:'Healthy Range', cls:'great'},
+    {min:0.14, max:0.20, label:'High — Investigate', cls:'watch'},
+    {min:0.20, label:'Critical', cls:'danger'},
+  ]);
+  metricCard('hm-maint-pct', {
+    name: 'Maintenance as % of Revenue',
+    value: maintPct !== null ? fmtPct(maintPct) : '—',
+    valueSub: maint > 0 ? `${fmt(maint)}/yr in maintenance costs` : 'Enter annual maintenance budget',
+    badgeText: mpClass.label, badgeCls: mpClass.cls,
+    formula: 'Maintenance % = Annual Maintenance Budget ÷ Revenue',
+    bar: barHtml(maintPct, [
+      {label:'<5% (defer risk)',color:'var(--amber)'},{label:'5–8%',color:'var(--ink2)'},
+      {label:'8–14% healthy',color:'var(--green)'},{label:'14%+ high',color:'var(--red)'}
+    ]),
+    ranges: [
+      {label:'< 5%  Likely deferring',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'5–8%  Below normal',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'8–14%  Healthy for 20yr facility',bg:'var(--green-l)',color:'var(--green)'},
+      {label:'14–20%  High',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'20%+  Critical',bg:'var(--red-l)',color:'var(--red)'},
+    ],
+    explain: "<strong>What it means:</strong> For a 20-year-old self-serve facility, spending 8–14% of revenue on maintenance is normal and expected — not a problem. What concerns experienced buyers is spending <em>less</em> than 5%, which usually means the previous owner was deferring repairs that you'll inherit. High maintenance (15%+) sustained over 2+ years signals either aging equipment beyond its economic life or a specific chronic failure (plumbing, bay hardware) that needs capital investment to fix.",
+    tip: "Track maintenance by category (plumbing, electrical, equipment, structural) across years. A single category consuming 40%+ of your total maintenance budget is a red flag — it usually means that system needs replacement, not ongoing repair."
+  });
+
+  // ── DSCR ──────────────────────────────────────────────────────────────
+  const dscrClass = classify(dscr, [
+    {max:1.0, label:'Default Risk', cls:'danger'},
+    {min:1.0, max:1.25, label:'Below SBA Min', cls:'watch'},
+    {min:1.25, max:1.5, label:'Meets Minimum', cls:'ok'},
+    {min:1.5, label:'Comfortable', cls:'great'},
+  ]);
+  metricCard('hm-dscr', {
+    name: 'Debt Service Coverage Ratio (DSCR)',
+    value: dscr !== null ? dscr.toFixed(2)+'×' : debt === 0 ? 'No Debt' : '—',
+    valueSub: debt > 0 ? `${fmt(profit)} profit ÷ ${fmt(debt)} annual debt service` : 'No debt service entered — fully owner-funded',
+    badgeText: debt === 0 ? 'No Debt' : dscrClass.label,
+    badgeCls: debt === 0 ? 'great' : dscrClass.cls,
+    formula: 'DSCR = Annual Operating Profit ÷ Annual Debt Service (P+I)',
+    bar: debt > 0 ? barHtml(dscr, [
+      {label:'<1.0× danger',color:'var(--red)'},{label:'1.0–1.25× low',color:'var(--amber)'},
+      {label:'1.25–1.5× ok',color:'var(--ink2)'},{label:'1.5×+ healthy',color:'var(--green)'}
+    ], '×', 50) : '',
+    ranges: debt > 0 ? [
+      {label:'< 1.0×  Default risk',bg:'var(--red-l)',color:'var(--red)'},
+      {label:'1.0–1.25×  Below SBA min',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'1.25–1.5×  SBA minimum met',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'1.5×+  Comfortable cushion',bg:'var(--green-l)',color:'var(--green)'},
+    ] : [],
+    explain: "<strong>What it means:</strong> For every dollar of debt payment, how many dollars of profit does the business generate? A DSCR of 1.5× means the business earns $1.50 for every $1.00 of loan payment — 50 cents of cushion. SBA lenders require at least 1.25× to approve a loan. Below 1.0× means the business literally cannot cover its debt from operations — you're dipping into reserves or personal funds every month.",
+    tip: debt > 0 && dscr !== null && dscr < 1.5 ? 'Your DSCR has limited cushion. A seasonal revenue dip (like a bad KC winter) or unexpected $15k repair bill could push you into deficit months. Build a 3-month operating reserve before distributions.' : 'Even with comfortable DSCR, always maintain 2–3 months of total debt service in a separate reserve account. Car washes have lumpy maintenance costs that can hit in the same month as a slow season.'
+  });
+
+  // ── FIXED COST COVERAGE ───────────────────────────────────────────────
+  const fxClass = classify(fixedCov, [
+    {max:1.5, label:'Tight', cls:'danger'},
+    {min:1.5, max:2.0, label:'Adequate', cls:'watch'},
+    {min:2.0, max:2.5, label:'Healthy', cls:'ok'},
+    {min:2.5, label:'Strong', cls:'great'},
+  ]);
+  metricCard('hm-fixed-coverage', {
+    name: 'Fixed Cost Coverage',
+    value: fixedCov !== null ? fixedCov.toFixed(2)+'×' : '—',
+    valueSub: fixed > 0 ? `Revenue covers fixed costs ${fixedCov!==null?fixedCov.toFixed(2)+'×':''} — ${fmt(fixed)}/yr in fixed costs` : 'Enter fixed costs',
+    badgeText: fxClass.label, badgeCls: fxClass.cls,
+    formula: 'Fixed Coverage = Annual Revenue ÷ Annual Fixed Costs',
+    bar: barHtml(fixedCov, [
+      {label:'<1.5× danger',color:'var(--red)'},{label:'1.5–2× low',color:'var(--amber)'},
+      {label:'2–2.5× ok',color:'var(--ink2)'},{label:'2.5×+ strong',color:'var(--green)'}
+    ], '×', 40),
+    ranges: [
+      {label:'< 1.5×  Tight',bg:'var(--red-l)',color:'var(--red)'},
+      {label:'1.5–2×  Adequate',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'2–2.5×  Healthy',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'2.5×+  Strong',bg:'var(--green-l)',color:'var(--green)'},
+    ],
+    explain: "<strong>What it means:</strong> How many times over your revenue covers your unavoidable fixed costs (rent, insurance, utilities base, supplies). This tells you how much revenue can decline before you start losing money on your fixed base alone — before you even count labor or maintenance. A 2× coverage means revenue could drop 50% and you'd still cover your fixed costs.",
+    tip: "In KC, January and February revenue drops to 38–44% of peak. If your annual fixed coverage is below 2×, model your worst winter month explicitly — can you cover rent, insurance, and utilities if you only bring in $10k that month?"
+  });
+
+  // ── BREAK-EVEN ────────────────────────────────────────────────────────
+  const beMonthly = breakevenRev !== null ? breakevenRev / 12 : null;
+  const beDays    = beMonthly !== null && rev > 0 ? Math.round((beMonthly / (rev/12)) * 30) : null;
+  metricCard('hm-breakeven', {
+    name: 'Break-Even Revenue',
+    value: beMonthly !== null ? fmt(beMonthly)+'/mo' : '—',
+    valueSub: beDays !== null ? `~${beDays} days of revenue per month to cover all costs` : 'Enter revenue and costs',
+    badgeText: breakevenPct !== null ? (breakevenPct < 0.60 ? 'Low Break-Even ✓' : breakevenPct < 0.75 ? 'Moderate' : 'High') : 'N/A',
+    badgeCls:  breakevenPct !== null ? (breakevenPct < 0.60 ? 'great' : breakevenPct < 0.75 ? 'ok' : 'watch') : 'na',
+    formula: 'Break-Even = Annual Costs (all-in) ÷ 12',
+    bar: '',
+    ranges: [
+      {label:'< 60% of revenue needed',bg:'var(--green-l)',color:'var(--green)'},
+      {label:'60–75%  Moderate',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'75%+  High fixed burden',bg:'var(--amber-l)',color:'var(--amber)'},
+    ],
+    explain: '<strong>What it means:</strong> The minimum monthly revenue you need to cover every cost — labor, maintenance, rent, insurance, everything — before you earn a dollar of profit. Every dollar above this number is profit. Knowing this cold is one of the most important habits in small business: on the 15th of the month, have you crossed your break-even? If yes, the rest of the month is profit. If not, how far behind are you?',
+    tip: breakevenRev !== null && rev > 0 ? `Your break-even is ${fmtPct(breakevenPct)} of annual revenue. In KC's slowest month (January at 38% of peak), your revenue is roughly ${fmt(rev*0.38/12)}/mo — ${rev*0.38/12 > beMonthly ? 'which covers break-even ✓' : 'which does NOT cover break-even ⚠ — plan for this shortfall with a reserve fund'}.` : 'Calculate your break-even first, then check it against your slowest historical month.'
+  });
+
+  // ── RETURN ON CASH ────────────────────────────────────────────────────
+  const rocClass = classify(roc, [
+    {max:0.15, label:'Below Market', cls:'watch'},
+    {min:0.15, max:0.25, label:'Acceptable', cls:'ok'},
+    {min:0.25, max:0.40, label:'Good', cls:'ok'},
+    {min:0.40, label:'Excellent', cls:'great'},
+  ]);
+  metricCard('hm-roc', {
+    name: 'Return on Cash Invested',
+    value: roc !== null ? fmtPct(roc) : cash === 0 ? 'Enter Cash Down' : '—',
+    valueSub: cash > 0 ? `${fmt(profit)} profit on ${fmt(cash)} cash invested` : 'Enter your cash down payment',
+    badgeText: roc !== null ? rocClass.label : 'N/A',
+    badgeCls:  roc !== null ? rocClass.cls : 'na',
+    formula: 'Return on Cash = Annual Operating Profit ÷ Cash Invested (Down Payment)',
+    bar: roc !== null ? barHtml(roc, [
+      {label:'<15% low',color:'var(--amber)'},{label:'15–25% ok',color:'var(--ink2)'},
+      {label:'25–40% good',color:'var(--green)'},{label:'40%+ excellent',color:'var(--green)'}
+    ]) : '',
+    ranges: [
+      {label:'< 15%  Below market',bg:'var(--amber-l)',color:'var(--amber)'},
+      {label:'15–25%  Acceptable',bg:'var(--cream)',color:'var(--ink2)'},
+      {label:'25–40%  Good',bg:'var(--green-l)',color:'var(--green)'},
+      {label:'40%+  Excellent',bg:'var(--green-l)',color:'var(--green)'},
+    ],
+    explain: '<strong>What it means:</strong> How much profit the business generates relative to the cash you actually put in (your down payment). This is the real measure of leverage working for you. If you put $50k down and the business generates $125k profit, your return on cash is 250% — far better than any stock market return. This is why leveraged small business acquisitions are so powerful when the underlying business is healthy. Compare this to an S&P 500 index fund (historically ~10%/yr) or real estate (typically 8–15% cash-on-cash).',
+    tip: roc !== null && roc > 0.5 ? "Your return on cash is exceptional. The key risk is leverage — if revenue drops or costs spike, your debt obligations are fixed even when profits aren't. Protect this return by maintaining reserves and not over-distributing in the first 2 years." : "If return on cash feels low, the question is whether the multiple you paid was too high, or whether the business is underperforming. A 4x SDE deal with 25% cash down and lean operations should produce 80-150% cash-on-cash return in year one."
+  });
+
+  // ── REFERENCE TABLE ───────────────────────────────────────────────────
+  const refEl = document.getElementById('health-reference');
+  if (refEl) {
+    const refRows = [
+      ['Gross Margin',              '< 50%','50–60%','60–68%','68%+',        'Revenue minus direct labor & maintenance'],
+      ['Net Operating Margin',      '< 10%','10–25%','25–40%','40%+',        'Operating profit ÷ revenue'],
+      ['Labor % of Revenue',        '> 32%','26–32%','20–26%','< 20%',       'Total loaded labor ÷ revenue'],
+      ['Maintenance % of Revenue',  '> 20%','14–20%','8–14%', '< 5% or 5–8%','Annual maintenance ÷ revenue (8–14% is ideal for 20yr facility)'],
+      ['DSCR',                      '< 1.0×','1.0–1.25×','1.25–1.5×','> 1.5×','Profit ÷ annual debt payments'],
+      ['Fixed Cost Coverage',       '< 1.5×','1.5–2.0×','2.0–2.5×','> 2.5×', 'Revenue ÷ fixed costs'],
+      ['Break-Even % of Revenue',   '> 90%','75–90%','60–75%','< 60%',       'Costs as % of revenue — lower = more profit cushion'],
+      ['Return on Cash',            '< 15%','15–25%','25–40%','> 40%',       'Annual profit ÷ cash down payment'],
+      ['SDE Multiple (purchase)',   '> 5.5×','4.5–5.5×','3.5–4.5×','< 3.5×','What you paid — lower = better value (distressed vs premium)'],
+    ];
+    refEl.innerHTML = `
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:var(--cream)">
+            <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);border-bottom:2px solid var(--border)">Metric</th>
+            <th style="text-align:center;padding:10px 8px;font-size:11px;color:var(--red);border-bottom:2px solid var(--border)">⚠ Danger</th>
+            <th style="text-align:center;padding:10px 8px;font-size:11px;color:var(--amber);border-bottom:2px solid var(--border)">Watch</th>
+            <th style="text-align:center;padding:10px 8px;font-size:11px;color:var(--ink2);border-bottom:2px solid var(--border)">Healthy</th>
+            <th style="text-align:center;padding:10px 8px;font-size:11px;color:var(--green);border-bottom:2px solid var(--border)">✓ Great</th>
+            <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--muted);border-bottom:2px solid var(--border)">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${refRows.map((r,i)=>`
+            <tr style="background:${i%2===0?'var(--paper)':'var(--cream)'}">
+              <td style="padding:10px 12px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--border)">${r[0]}</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--red);border-bottom:1px solid var(--border)">${r[1]}</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--amber);border-bottom:1px solid var(--border)">${r[2]}</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--ink2);border-bottom:1px solid var(--border)">${r[3]}</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--green);border-bottom:1px solid var(--border)">${r[4]}</td>
+              <td style="padding:10px 12px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)">${r[5]}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:var(--muted);line-height:1.7">
+        Benchmarks are for a <strong>lean self-serve car wash in a mid-size Midwest market (Kansas City area)</strong>. 
+        Full-service or express-tunnel operations have different labor/margin profiles. 
+        Sources: ICA industry benchmarks, SBA lending standards, and operator comps from similar markets.
+      </div>
+    `;
+  }
+}
+
+// Auto-sync health tab when annual analysis renders
+const _origRenderAnnual = typeof renderAnnual === 'function' ? renderAnnual : null;
+
+</script></body></html>
